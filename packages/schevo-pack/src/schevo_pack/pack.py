@@ -25,7 +25,7 @@ class SchemaSpec:
 class Pack(Protocol):
     pack_id: str
 
-    def schemas(self) -> list[SchemaSpec]: # type: ignore
+    def schemas(self) -> list[SchemaSpec]:  # type: ignore
         """Return schema specs belonging to this pack."""
 
     def register(self, registry: MigrationRegistry) -> None:

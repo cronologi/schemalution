@@ -41,7 +41,7 @@ lock: setup
 	$(UV) lock
 
 sync: check-uv
-	$(UV) sync --extra $(UV_EXTRAS)
+	$(UV) sync --all-packages --extra $(UV_EXTRAS)
 
 lint: setup
 	$(UV) run ruff check .

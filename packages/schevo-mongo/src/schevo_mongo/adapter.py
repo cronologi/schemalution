@@ -6,7 +6,6 @@ from collections.abc import Mapping
 from typing import Any
 
 from pymongo.collection import Collection
-
 from schevo_core import MigrationRegistry, UpcastContext, upcast_to_latest
 
 
