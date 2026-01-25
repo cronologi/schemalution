@@ -1,4 +1,4 @@
-from schevo_mongo import MongoAdapter, __version__
+from schevo_mongo import __version__, backfill_to_latest, read_latest, write_latest
 
 
 def test_version_is_string() -> None:
@@ -6,5 +6,7 @@ def test_version_is_string() -> None:
     assert __version__
 
 
-def test_placeholder_class() -> None:
-    assert MongoAdapter() is not None
+def test_public_api_exports() -> None:
+    assert callable(read_latest)
+    assert callable(write_latest)
+    assert callable(backfill_to_latest)
