@@ -69,6 +69,20 @@ def test_cast_warning_captured_in_context() -> None:
     assert any("cast failed for path 'age'" in warning for warning in context.warnings)
 
 
+def test_upcast_sets_latest_schema_version() -> None:
+    registry = _setup_registry()
+    record = {
+        "schema_version": 1,
+        "customerId": "c-5",
+        "name": "Rene",
+        "age": "31",
+    }
+
+    result = upcast(record, SCHEMA_ID, registry, to_version="latest")
+
+    assert result["schema_version"] == LATEST_VERSION
+
+
 def test_v1_preserves_existing_contact_email() -> None:
     registry = _setup_registry()
     record = {

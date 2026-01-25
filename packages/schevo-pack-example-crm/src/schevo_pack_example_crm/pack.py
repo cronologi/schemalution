@@ -35,7 +35,7 @@ def _v1_to_v2() -> Callable[[Mapping[str, Any], UpcastContext | None], dict[str,
         Rename("customerId", "customer_id"),
         Move("email", "contact.email", overwrite=False),
         Cast("age", int, on_error="warn"),
-        SetSchemaVersion(2),
+        # SetSchemaVersion(2), # upcast() in core already stamps schema_version after each step.
     ]
     return compile_ops(ops)
 
@@ -45,7 +45,7 @@ def _v2_to_v3() -> Callable[[Mapping[str, Any], UpcastContext | None], dict[str,
         Rename("name", "full_name"),
         Move("contact.email", "contact.primary.email", overwrite=False),
         SetDefault("contact.primary.verified", False),
-        SetSchemaVersion(3),
+        # SetSchemaVersion(3), # upcast() in core already stamps schema_version after each step.
     ]
     return compile_ops(ops)
 
