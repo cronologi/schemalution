@@ -8,9 +8,15 @@ from typing import Any
 
 from schevo_core import MigrationRegistry, UpcastContext, compile_ops
 from schevo_core.ops import Cast, Move, Rename, SetDefault
+from schevo_pack import SchemaSpec, register_schema
 
 SCHEMA_ID = "crm.customer"
 LATEST_VERSION = 3
+SCHEMA_SPEC = SchemaSpec(
+    schema_id=SCHEMA_ID,
+    latest_version=LATEST_VERSION,
+    description="Example CRM customer schema.",
+)
 
 
 @dataclass(frozen=True)
@@ -47,6 +53,11 @@ def _v2_to_v3() -> Callable[[Mapping[str, Any], UpcastContext | None], dict[str,
 def register(registry: MigrationRegistry) -> None:
     """Register CRM customer migrations and latest version."""
 
-    registry.set_latest_version(SCHEMA_ID, LATEST_VERSION)
-    registry.register_migration(SCHEMA_ID, 1, 2, _v1_to_v2())
-    registry.register_migration(SCHEMA_ID, 2, 3, _v2_to_v3())
+    register_schema(
+        registry,
+        SCHEMA_SPEC,
+        [
+            (1, 2, _v1_to_v2()),
+            (2, 3, _v2_to_v3()),
+        ],
+    )

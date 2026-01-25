@@ -41,3 +41,4 @@ members = ["packages/*"]
 
 [tool.uv.sources]
 schevo-core = { workspace = true }
+schevo-pack = { workspace = true }

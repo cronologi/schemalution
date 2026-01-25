@@ -175,6 +175,12 @@ source = { editable = "packages/schevo-mongo" }
 name = "schevo-pack"
 version = "0.0.0"
 source = { editable = "packages/schevo-pack" }
+dependencies = [
+    { name = "schevo-core" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "schevo-core", editable = "packages/schevo-core" }]
 
 [[package]]
 name = "schevo-pack-example-crm"
@@ -182,10 +188,14 @@ version = "0.0.0"
 source = { editable = "packages/schevo-pack-example-crm" }
 dependencies = [
     { name = "schevo-core" },
+    { name = "schevo-pack" },
 ]
 
 [package.metadata]
-requires-dist = [{ name = "schevo-core", editable = "packages/schevo-core" }]
+requires-dist = [
+    { name = "schevo-core", editable = "packages/schevo-core" },
+    { name = "schevo-pack", editable = "packages/schevo-pack" },
+]
 
 [[package]]
 name = "schevo-spark"

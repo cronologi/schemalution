@@ -7,7 +7,7 @@ name = "schevo-pack-example-crm"
 version = "0.0.0"
 description = "Example CRM schema pack for Schevo."
 requires-python = ">=3.10"
-dependencies = ["schevo-core"]
+dependencies = ["schevo-core", "schevo-pack"]
 
 [tool.hatch.build.targets.wheel]
 packages = ["schevo_pack_example_crm"]
