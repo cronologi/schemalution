@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
+import inspect
 from collections.abc import Callable, Mapping
 from dataclasses import dataclass, field
-from typing import Any, Literal
+from typing import Any, Literal, cast
 
 from .errors import (
     InvalidSchemaVersionError,
@@ -13,7 +14,6 @@ from .errors import (
     UnsupportedSchemaIdError,
 )
 
-MigrationFn = Callable[[Mapping[str, Any]], dict[str, Any]]
 LatestLiteral = Literal["latest"]
 
 
@@ -24,6 +24,15 @@ class UpcastContext:
     applied_steps: list[tuple[int, int]] = field(default_factory=list)
     warnings: list[str] = field(default_factory=list)
     notes: dict[str, Any] = field(default_factory=dict)
+
+
+MigrationFn = (
+    Callable[[Mapping[str, Any]], dict[str, Any]]
+    | Callable[
+        [Mapping[str, Any], UpcastContext | None],
+        dict[str, Any],
+    ]
+)
 
 
 def _ensure_int_version(value: Any, label: str) -> int:
@@ -74,6 +83,42 @@ class MigrationRegistry:
         return self._migrations.get(schema_id, {}).get(from_version)
 
 
+def _can_accept_positional_context(signature: inspect.Signature) -> bool:
+    positional = 0
+    for param in signature.parameters.values():
+        if param.kind in (param.POSITIONAL_ONLY, param.POSITIONAL_OR_KEYWORD):
+            positional += 1
+        elif param.kind == param.VAR_POSITIONAL:
+            return True
+    return positional >= 2
+
+
+def _apply_migration(
+    migration: MigrationFn,
+    record: Mapping[str, Any],
+    context: UpcastContext | None,
+) -> dict[str, Any]:
+    migration_callable = cast(Callable[..., dict[str, Any]], migration)
+    if context is None:
+        return migration_callable(record)
+
+    try:
+        signature = inspect.signature(migration)
+    except (TypeError, ValueError):
+        return migration_callable(record, context)
+
+    params = signature.parameters
+    if any(param.kind == param.VAR_KEYWORD for param in params.values()):
+        return migration_callable(record, ctx=context)
+    if "ctx" in params:
+        return migration_callable(record, ctx=context)
+    if "context" in params:
+        return migration_callable(record, context=context)
+    if _can_accept_positional_context(signature):
+        return migration_callable(record, context)
+    return migration_callable(record)
+
+
 def upcast(
     record: Mapping[str, Any],
     schema_id: str,
@@ -114,7 +159,7 @@ def upcast(
                 f"missing migration step v{current_version} -> v{current_version + 1} "
                 f"for '{schema_id}'."
             )
-        current_record = dict(migration(current_record))
+        current_record = dict(_apply_migration(migration, current_record, context))
         current_version += 1
         current_record["schema_version"] = current_version
         if context is not None:

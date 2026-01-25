@@ -40,6 +40,16 @@ record = {"schema_version": 1, "name": "Ada"}
 latest = upcast_to_latest(record, "crm.customer", registry)
 ```
 
+Declarative ops can be compiled into migrations:
+
+```python
+from schevo_core import compile_ops
+from schevo_core.ops import Rename, SetDefault
+
+ops = [Rename("name", "full_name"), SetDefault("status", "active")]
+fn = compile_ops(ops)
+```
+
 ## Dev setup
 
 From the repo root:

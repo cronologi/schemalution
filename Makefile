@@ -16,7 +16,7 @@ help:
 	@printf "  lock           Create/refresh uv.lock\n"
 	@printf "  sync           Sync deps (defaults to extra: %s)\n" "$(UV_EXTRAS)"
 	@printf "  lint           Run ruff check\n"
-	@printf "  format         Run ruff format\n"
+	@printf "  format         Run ruff format + import fixes\n"
 	@printf "  format-check   Check formatting without writing\n"
 	@printf "  typecheck      Run pyright\n"
 	@printf "  test           Run pytest\n"
@@ -48,6 +48,7 @@ lint: setup
 
 format: setup
 	$(UV) run ruff format .
+	$(UV) run ruff check . --fix
 
 format-check: setup
 	$(UV) run ruff format --check .
