@@ -2,13 +2,18 @@
 
 from __future__ import annotations
 
-__all__ = ["Composer", "__version__"]
+from .composer import compose_root
+from .merge import choose_newer, deep_merge, merge_arrays_by_key
+from .model import ComposeContext, Fragment
+
+__all__ = [
+    "ComposeContext",
+    "Fragment",
+    "choose_newer",
+    "compose_root",
+    "deep_merge",
+    "merge_arrays_by_key",
+    "__version__",
+]
 
 __version__ = "0.0.0"
-
-
-class Composer:
-    """Placeholder for composition APIs."""
-
-    def __init__(self) -> None:
-        pass
