@@ -1,0 +1,12 @@
+[build-system]
+requires = ["hatchling>=1.21"]
+build-backend = "hatchling.build"
+
+[project]
+name = "schevo-spark"
+version = "0.0.0"
+description = "Spark adapter placeholder for Schevo."
+requires-python = ">=3.10"
+
+[tool.hatch.build.targets.wheel]
+packages = ["schevo_spark"]

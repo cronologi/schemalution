@@ -1,0 +1,17 @@
+{
+  "pythonVersion": "3.10",
+  "typeCheckingMode": "standard",
+  "reportMissingTypeStubs": false,
+  "extraPaths": [
+    "packages/schevo-compose/src",
+    "packages/schevo-core/src",
+    "packages/schevo-mongo/src",
+    "packages/schevo-pack/src",
+    "packages/schevo-pack-example-crm/src",
+    "packages/schevo-spark/src"
+  ],
+  "include": [
+    "packages/**/src",
+    "packages/**/tests"
+  ]
+}

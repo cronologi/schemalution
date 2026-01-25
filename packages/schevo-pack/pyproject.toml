@@ -1,0 +1,12 @@
+[build-system]
+requires = ["hatchling>=1.21"]
+build-backend = "hatchling.build"
+
+[project]
+name = "schevo-pack"
+version = "0.0.0"
+description = "Helpers for Schevo schema packs."
+requires-python = ">=3.10"
+
+[tool.hatch.build.targets.wheel]
+packages = ["schevo_pack"]

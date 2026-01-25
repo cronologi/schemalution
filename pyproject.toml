@@ -1,0 +1,40 @@
+[build-system]
+requires = ["hatchling>=1.21"]
+build-backend = "hatchling.build"
+
+[project]
+name = "schevo-dev"
+version = "0.0.0"
+description = "Dev tooling for the Schevo monorepo."
+requires-python = ">=3.10"
+
+[project.optional-dependencies]
+dev = [
+  "ruff",
+  "pyright",
+  "pytest",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["schevo_dev"]
+sources = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra --import-mode=importlib"
+testpaths = [
+  "packages",
+]
+
+[tool.pyright]
+# Pyright prefers pyrightconfig.json; keep minimal here to avoid conflicts.
+
+[tool.uv.workspace]
+members = ["packages/*"]
