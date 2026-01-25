@@ -236,17 +236,17 @@ wheels = [
 
 [[package]]
 name = "schevo-compose"
-version = "0.0.0"
+version = "0.0.1"
 source = { editable = "packages/schevo-compose" }
 
 [[package]]
 name = "schevo-core"
-version = "0.0.0"
+version = "0.0.1"
 source = { editable = "packages/schevo-core" }
 
 [[package]]
 name = "schevo-dev"
-version = "0.0.0"
+version = "0.0.1"
 source = { editable = "." }
 
 [package.optional-dependencies]
@@ -266,7 +266,7 @@ provides-extras = ["dev"]
 
 [[package]]
 name = "schevo-mongo"
-version = "0.0.0"
+version = "0.0.1"
 source = { editable = "packages/schevo-mongo" }
 dependencies = [
     { name = "pymongo" },
@@ -281,7 +281,7 @@ requires-dist = [
 
 [[package]]
 name = "schevo-pack"
-version = "0.0.0"
+version = "0.0.1"
 source = { editable = "packages/schevo-pack" }
 dependencies = [
     { name = "schevo-core" },
@@ -292,7 +292,7 @@ requires-dist = [{ name = "schevo-core", editable = "packages/schevo-core" }]
 
 [[package]]
 name = "schevo-pack-example-crm"
-version = "0.0.0"
+version = "0.0.1"
 source = { editable = "packages/schevo-pack-example-crm" }
 dependencies = [
     { name = "schevo-core" },
@@ -307,7 +307,7 @@ requires-dist = [
 
 [[package]]
 name = "schevo-spark"
-version = "0.0.0"
+version = "0.0.1"
 source = { editable = "packages/schevo-spark" }
 dependencies = [
     { name = "pyspark" },

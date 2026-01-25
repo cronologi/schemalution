@@ -1,4 +1,7 @@
-"""Public API for schevo-compose."""
+"""Public API for schevo-compose.
+
+Only the symbols exported here are considered public and stable.
+"""
 
 from __future__ import annotations
 
@@ -16,4 +19,4 @@ __all__ = [
     "__version__",
 ]
 
-__version__ = "0.0.0"
+__version__ = "0.0.1"

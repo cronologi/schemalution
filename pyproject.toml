@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "schevo-dev"
-version = "0.0.0"
+version = "0.0.1"
 description = "Dev tooling for the Schevo monorepo."
 requires-python = ">=3.10"
 
