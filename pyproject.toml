@@ -43,3 +43,4 @@ members = ["packages/*"]
 schevo-core = { workspace = true }
 schevo-pack = { workspace = true }
 schevo-mongo = { workspace = true }
+schevo-spark = { workspace = true }
