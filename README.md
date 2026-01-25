@@ -403,7 +403,7 @@ register(registry)
 
 record = {"schema_version": 1, "customerId": "c-1", "name": "Ada", "age": "42"}
 latest = upcast_to_latest(record, SCHEMA_ID, registry)
-
+```
 
 # Repo details
 
