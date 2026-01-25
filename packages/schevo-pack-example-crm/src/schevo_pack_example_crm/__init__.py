@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
-__all__ = ["EXAMPLE_PACK", "__version__"]
+from .pack import LATEST_VERSION, SCHEMA_ID, register
+
+__all__ = ["EXAMPLE_PACK", "LATEST_VERSION", "SCHEMA_ID", "register", "__version__"]
 
 __version__ = "0.0.0"
 

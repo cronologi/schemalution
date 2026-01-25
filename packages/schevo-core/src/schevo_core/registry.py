@@ -19,7 +19,7 @@ LatestLiteral = Literal["latest"]
 
 @dataclass(slots=True)
 class UpcastContext:
-    """Collect diagnostics during upcast."""
+    """Collect diagnostics during upcast (warnings and soft errors)."""
 
     applied_steps: list[tuple[int, int]] = field(default_factory=list)
     warnings: list[str] = field(default_factory=list)
@@ -127,13 +127,14 @@ def upcast(
     context: UpcastContext | None = None,
     on_step: Callable[[str, int, int], None] | None = None,
 ) -> dict[str, Any]:
-    """Upcast a record to a target version (or latest), stamping schema_version each step."""
+    """Upcast a record to a target version (or latest), overwriting schema_version each step."""
 
     if "schema_version" not in record:
         raise MissingSchemaVersionError("record is missing required 'schema_version'.")
     from_version = _ensure_int_version(record["schema_version"], "schema_version")
 
     if to_version == "latest":
+        # For "latest", schema_id validation is delegated to registry.latest_version.
         target_version = registry.latest_version(schema_id)
     else:
         target_version = _ensure_int_version(to_version, "to_version")
@@ -173,7 +174,17 @@ def upcast_to_latest(
     record: Mapping[str, Any],
     schema_id: str,
     registry: MigrationRegistry,
+    *,
+    context: UpcastContext | None = None,
+    on_step: Callable[[str, int, int], None] | None = None,
 ) -> dict[str, Any]:
     """Upcast a record to the latest schema version for schema_id."""
 
-    return upcast(record, schema_id, registry, "latest")
+    return upcast(
+        record,
+        schema_id,
+        registry,
+        "latest",
+        context=context,
+        on_step=on_step,
+    )

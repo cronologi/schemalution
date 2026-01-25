@@ -180,6 +180,12 @@ source = { editable = "packages/schevo-pack" }
 name = "schevo-pack-example-crm"
 version = "0.0.0"
 source = { editable = "packages/schevo-pack-example-crm" }
+dependencies = [
+    { name = "schevo-core" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "schevo-core", editable = "packages/schevo-core" }]
 
 [[package]]
 name = "schevo-spark"

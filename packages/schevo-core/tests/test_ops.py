@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import pytest
+from schevo_core import UpcastContext
 from schevo_core.ops import (
     MISSING,
     Cast,
@@ -12,7 +13,6 @@ from schevo_core.ops import (
     compile_ops,
     get_path,
 )
-from schevo_core.registry import UpcastContext
 
 
 def test_rename_moves_field_without_mutation() -> None:

@@ -4,13 +4,13 @@ from collections.abc import Mapping
 from typing import Any
 
 import pytest
+from schevo_core import MigrationRegistry, UpcastContext, upcast, upcast_to_latest
 from schevo_core.errors import (
     InvalidSchemaVersionError,
     MissingSchemaVersionError,
     NoMigrationPathError,
     UnsupportedSchemaIdError,
 )
-from schevo_core.registry import MigrationRegistry, UpcastContext, upcast, upcast_to_latest
 
 
 def _v1_to_v2(record: Mapping[str, Any]) -> dict[str, Any]:
@@ -89,6 +89,22 @@ def test_upcast_without_context_or_hook_behaves_same() -> None:
     assert result["schema_version"] == 3
     assert result["full_name"] == "Ada"
     assert result["email"] == "Ada@example.com"
+
+
+def test_upcast_to_latest_forwards_context_and_hook() -> None:
+    registry = _build_registry()
+    record = {"schema_version": 1, "name": "Ada"}
+    context = UpcastContext()
+    calls: list[tuple[str, int, int]] = []
+
+    def on_step(schema_id: str, from_v: int, to_v: int) -> None:
+        calls.append((schema_id, from_v, to_v))
+
+    result = upcast_to_latest(record, "crm.customer", registry, context=context, on_step=on_step)
+
+    assert result["schema_version"] == 3
+    assert context.applied_steps == [(1, 2), (2, 3)]
+    assert calls == [("crm.customer", 1, 2), ("crm.customer", 2, 3)]
 
 
 def test_missing_schema_version_raises() -> None:
