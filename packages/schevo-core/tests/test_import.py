@@ -1,4 +1,4 @@
-from schevo_core import SchevoCore, __version__
+from schevo_core import MigrationRegistry, __version__, upcast_to_latest
 
 
 def test_version_is_string() -> None:
@@ -6,5 +6,6 @@ def test_version_is_string() -> None:
     assert __version__
 
 
-def test_placeholder_class() -> None:
-    assert SchevoCore() is not None
+def test_public_api_exports() -> None:
+    assert MigrationRegistry() is not None
+    assert callable(upcast_to_latest)
