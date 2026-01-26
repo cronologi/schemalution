@@ -1,0 +1,12 @@
+[build-system]
+requires = ["hatchling>=1.21"]
+build-backend = "hatchling.build"
+
+[project]
+name = "schemalution-compose"
+version = "0.0.1"
+description = "Composition helpers placeholder for schemalution."
+requires-python = ">=3.10"
+
+[tool.hatch.build.targets.wheel]
+packages = ["schemalution_compose"]

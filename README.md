@@ -1,15 +1,15 @@
-# schevo
->Schevo turns schema evolution into a first-class architectural capability, enabling systems to evolve continuously without downtime, coordination bottlenecks, or downstream breakage.
+# schemalution
+>schemalution turns schema evolution into a first-class architectural capability, enabling systems to evolve continuously without downtime, coordination bottlenecks, or downstream breakage.
 
 ## Table of contents
 
-- [What Schevo enables](#what-schevo-enables)
+- [What schemalution enables](#what-schemalution-enables)
 - [What this unlocks](#what-this-unlocks)
-- [Without Schevo: tightly coupled deployments + repeated fixes](#1-without-schevo-tightly-coupled-deployments--repeated-fixes)
-- [With Schevo: decoupled deploys + stable “latest” everywhere](#2-with-schevo-decoupled-deploys--stable-latest-everywhere)
-- [How developers use Schevo (practical guide)](#how-developers-use-schevo-practical-guide)
+- [Without schemalution: tightly coupled deployments + repeated fixes](#1-without-schemalution-tightly-coupled-deployments--repeated-fixes)
+- [With schemalution: decoupled deploys + stable “latest” everywhere](#2-with-schemalution-decoupled-deploys--stable-latest-everywhere)
+- [How developers use schemalution (practical guide)](#how-developers-use-schemalution-practical-guide)
 - [Repo details](#repo-details)
-- [What Schevo is / is not](#what-schevo-is--is-not)
+- [What schemalution is / is not](#what-schemalution-is--is-not)
 - [Design principles](#design-principles)
 - [Packages](#packages)
 - [Core workflow (minimal)](#core-workflow-minimal)
@@ -20,16 +20,16 @@
 - [Tests, linting, typing](#tests-linting-typing)
 - [Future (grounded)](#future-grounded)
 
-## What Schevo enables
+## What schemalution enables
 
-Schevo enables **continuous, zero-downtime evolution of data schemas** across services, pipelines, and domains.
+schemalution enables **continuous, zero-downtime evolution of data schemas** across services, pipelines, and domains.
 
 It allows systems to evolve without:
 - coordinated deployments,
 - blocking data migrations,
 - or breaking downstream consumers.
 
-Instead of treating schema changes as one-off operational events, Schevo makes schema evolution a **reusable, deterministic capability**.
+Instead of treating schema changes as one-off operational events, schemalution makes schema evolution a **reusable, deterministic capability**.
 
 ---
 
@@ -94,15 +94,15 @@ Architects choose *where* evolution happens without changing *how* it works.
 
 ---
 
-## Without Schevo: tightly coupled deployments + repeated fixes
+## Without schemalution: tightly coupled deployments + repeated fixes
 
 ```mermaid
 flowchart LR
   %% =========================
-  %% WITHOUT SCHEVO
+  %% WITHOUT schemalution
   %% =========================
 
-  subgraph W[Without Schevo]
+  subgraph W[Without schemalution]
     direction LR
 
     subgraph DomainTeam[Domain Team]
@@ -174,15 +174,15 @@ flowchart LR
   end
 ```
 
-## With Schevo: decoupled deploys + stable “latest” everywhere
+## With schemalution: decoupled deploys + stable “latest” everywhere
 
 ```mermaid
 flowchart LR
   %% =========================
-  %% WITH SCHEVO
+  %% WITH schemalution
   %% =========================
 
-  subgraph S[With Schevo]
+  subgraph S[With schemalution]
     direction LR
 
     subgraph Packs[Schema Packs]
@@ -214,7 +214,7 @@ flowchart LR
     subgraph Compose[Multi-domain Composition]
       direction TB
       K1[Fragments: crm.customer latest risk.score latest support.state latest]
-      K2[schevo-compose  compose_root]
+      K2[schemalution-compose  compose_root]
       K3[(customer_360_latest)]
     end
 
@@ -252,7 +252,7 @@ flowchart LR
     K1 --> K2 --> K3
     K3 -->|stable composed view| C3
 
-    %% What Schevo enables
+    %% What schemalution enables
     B1{{Enables: Zero-downtime deploys  no forced backfills}}
     B2{{Enables: No version branching in consumers}}
     B3{{Enables: ETL/projections stable: install new pack, upcast-to-latest}}
@@ -268,9 +268,9 @@ flowchart LR
 
 ```
 
-# How developers use Schevo (practical guide)
+# How developers use schemalution (practical guide)
 
-Schevo is intentionally split into a small core and optional boundary adapters.  
+schemalution is intentionally split into a small core and optional boundary adapters.  
 Most teams will create **one schema pack per domain** and then reuse it across services and pipelines.
 
 ---
@@ -279,11 +279,11 @@ Most teams will create **one schema pack per domain** and then reuse it across s
 
 ### Domain schema pack (owned by a domain team)
 Install:
-- `schevo-core`
-- `schevo-pack`
+- `schemalution-core`
+- `schemalution-pack`
 
 You create:
-- `schevo-pack-<your-domain>` (your package)
+- `schemalution-pack-<your-domain>` (your package)
 
 Purpose:
 - Defines schema IDs, latest versions, and migrations (upcasters).
@@ -292,10 +292,10 @@ Purpose:
 
 ### API / service (operational read/write)
 Install:
-- `schevo-core`
-- your domain pack(s) (e.g. `schevo-pack-crm`)
+- `schemalution-core`
+- your domain pack(s) (e.g. `schemalution-pack-crm`)
 Optional:
-- `schevo-mongo` (if reading/writing MongoDB)
+- `schemalution-mongo` (if reading/writing MongoDB)
 
 Purpose:
 - Reads records and upcasts to the latest schema on read (or enforces latest on write).
@@ -304,10 +304,10 @@ Purpose:
 
 ### Spark / Databricks pipeline (ETL / projections)
 Install:
-- `schevo-core`
+- `schemalution-core`
 - your domain pack(s)
 Optional:
-- `schevo-spark`
+- `schemalution-spark`
 
 Purpose:
 - Upcasts mixed-version raw data during ingestion/projection to prevent schema breakage.
@@ -316,9 +316,9 @@ Purpose:
 
 ### Projection / composition service (multi-domain “root” views)
 Install:
-- `schevo-core`
+- `schemalution-core`
 - domain pack(s)
-- `schevo-compose`
+- `schemalution-compose`
 
 Purpose:
 - Combines multiple domain fragments into a stable composed view (e.g., customer 360).
@@ -330,9 +330,9 @@ Purpose:
 A typical organization creates:
 
 1) **Domain schema pack(s)**
-- `schevo-pack-crm`
-- `schevo-pack-billing`
-- `schevo-pack-risk`
+- `schemalution-pack-crm`
+- `schemalution-pack-billing`
+- `schemalution-pack-risk`
 Each pack contains:
 - `SchemaSpec` (schema_id, latest_version, metadata)
 - migrations vN → vN+1
@@ -341,11 +341,11 @@ Each pack contains:
 
 2) **(Optional) Contracts package**
 - `crm-contracts` (Pydantic models, OpenAPI/JSON Schema)
-This stays separate from Schevo:
-- Schevo evolves records to “latest”
+This stays separate from schemalution:
+- schemalution evolves records to “latest”
 - Contracts validate/parse “latest”
 
-This separation keeps Schevo framework-agnostic and interoperable.
+This separation keeps schemalution framework-agnostic and interoperable.
 
 ---
 
@@ -353,7 +353,7 @@ This separation keeps Schevo framework-agnostic and interoperable.
 
 ### Domain team (schema owners)
 Owns:
-- the domain schema pack (`schevo-pack-<domain>`)
+- the domain schema pack (`schemalution-pack-<domain>`)
 - the meaning of fields and evolution decisions
 - migration tests and fixtures
 Publishes:
@@ -381,7 +381,7 @@ May own:
 - a Schema Gateway service (central boundary)
 - canonical “latest” projection datasets
 - shared data access libraries
-Schevo supports all of these without changing core semantics.
+schemalution supports all of these without changing core semantics.
 
 ---
 
@@ -395,8 +395,8 @@ Schevo supports all of these without changing core semantics.
 Example (using the included example pack):
 
 ```python
-from schevo_core import MigrationRegistry, upcast_to_latest
-from schevo_pack_example_crm import SCHEMA_ID, register
+from schemalution_core import MigrationRegistry, upcast_to_latest
+from schemalution_pack_example_crm import SCHEMA_ID, register
 
 registry = MigrationRegistry()
 register(registry)
@@ -410,14 +410,14 @@ latest = upcast_to_latest(record, SCHEMA_ID, registry)
 This repo contains the core engine plus small adapters for common boundaries.
 See `docs/architectures.md` for deployment patterns.
 
-## What Schevo is / is not
+## What schemalution is / is not
 
-**Schevo is**
+**schemalution is**
 - A deterministic schema evolution engine (dict → dict).
 - A way to define migrations per schema ID and upcast records to the latest version.
 - A small set of adapters for MongoDB/Spark workflows.
 
-**Schevo is not**
+**schemalution is not**
 - A database, ORM, or persistence layer.
 - A framework that owns your runtime or service boundaries.
 - A contract model generator (contracts are separate).
@@ -431,18 +431,18 @@ See `docs/architectures.md` for deployment patterns.
 
 ## Packages
 
-- `schevo-core`: Migration registry, upcast helpers, diagnostics, and ops DSL.
-- `schevo-pack`: Minimal helpers for authoring schema packs.
-- `schevo-pack-example-crm`: Example `crm.customer` pack used in tests.
-- `schevo-mongo`: Thin helpers for read/upcast/write against MongoDB.
-- `schevo-spark`: JSON + UDF helpers for projection pipelines.
-- `schevo-compose`: Deterministic fragment composition utilities.
+- `schemalution-core`: Migration registry, upcast helpers, diagnostics, and ops DSL.
+- `schemalution-pack`: Minimal helpers for authoring schema packs.
+- `schemalution-pack-example-crm`: Example `crm.customer` pack used in tests.
+- `schemalution-mongo`: Thin helpers for read/upcast/write against MongoDB.
+- `schemalution-spark`: JSON + UDF helpers for projection pipelines.
+- `schemalution-compose`: Deterministic fragment composition utilities.
 
 ## Core workflow (minimal)
 
 ```python
-from schevo_core import MigrationRegistry, upcast_to_latest
-from schevo_pack_example_crm import SCHEMA_ID, register
+from schemalution_core import MigrationRegistry, upcast_to_latest
+from schemalution_pack_example_crm import SCHEMA_ID, register
 
 registry = MigrationRegistry()
 register(registry)
@@ -453,7 +453,7 @@ latest = upcast_to_latest(record, SCHEMA_ID, registry)
 
 # Deployment architectures
 
-Schevo supports multiple boundaries without changing core semantics:
+schemalution supports multiple boundaries without changing core semantics:
 
 - **Embedded Schema-on-Read**: upcast inside services on every read.
 - **Canonical Projection**: upcast once into a latest “materialized” store.
@@ -466,19 +466,19 @@ Details: `docs/architectures.md`.
 
 ```json
 packages/
-  schevo-core/
-  schevo-pack/
-  schevo-mongo/
-  schevo-spark/
-  schevo-compose/
-  schevo-pack-example-crm/
+  schemalution-core/
+  schemalution-pack/
+  schemalution-mongo/
+  schemalution-spark/
+  schemalution-compose/
+  schemalution-pack-example-crm/
 ```
 
 Each package is independently installable and uses a src/ layout.
 
 # End-to-end example: from raw data to composed view
 
-This short narrative illustrates how Schevo is typically used across multiple boundaries in a real system.
+This short narrative illustrates how schemalution is typically used across multiple boundaries in a real system.
 
 ## Scenario
 
@@ -491,7 +491,7 @@ Analytics requires a canonical, query-friendly dataset.
 
 A higher-level “customer 360” view combines data from multiple domains.
 
-Schevo is used as the evolution primitive, placed differently at each boundary.
+schemalution is used as the evolution primitive, placed differently at each boundary.
 
 ## 1. Raw domain data (mixed versions)
 
@@ -506,15 +506,15 @@ MongoDB contains customer records with different schema versions:
   "age": "42"
 }
 ```
-The domain pack (schevo-pack-example-crm) defines how this record evolves to the latest schema.
+The domain pack (schemalution-pack-example-crm) defines how this record evolves to the latest schema.
 
 ## 2. Operational read path (Embedded Schema-on-Read)
 
 An API service reads directly from MongoDB and upcasts on read:
 
 ```python
-from schevo_core import MigrationRegistry, upcast_to_latest
-from schevo_pack_example_crm import SCHEMA_ID, register
+from schemalution_core import MigrationRegistry, upcast_to_latest
+from schemalution_pack_example_crm import SCHEMA_ID, register
 
 registry = MigrationRegistry()
 register(registry)
@@ -530,7 +530,7 @@ No branching on versions is required.
 For analytics and downstream consumers, schema evolution is applied once in a batch or streaming job (e.g. Spark / Databricks):
 
 ```python
-from schevo_spark import make_upcast_to_latest_json_udf
+from schemalution_spark import make_upcast_to_latest_json_udf
 
 upcast_udf = make_upcast_to_latest_json_udf("crm.customer", registry)
 
@@ -541,14 +541,14 @@ df_latest = df_raw.withColumn(
 ```
 
 The output is written to a canonical “latest” dataset.
-Consumers of this dataset do not need Schevo at all.
+Consumers of this dataset do not need schemalution at all.
 
 ## 4. Multi-domain composition (Customer 360 view)
 
 Independent domain projections (CRM, risk, support, etc.) are composed into a single root view:
 
 ```python
-from schevo_compose import Fragment, compose_root
+from schemalution_compose import Fragment, compose_root
 
 root = compose_root(
     fragments=[
@@ -567,9 +567,9 @@ Schema evolution logic is written once, in schema packs.
 
 The same migrations power: **operational reads**, **projection pipelines**, **multi-domain composition**.
 
-Schevo does not dictate where evolution happens — only how.
+schemalution does not dictate where evolution happens — only how.
 
-This is intentional: Schevo is designed to be placed at the boundary that best fits your architecture.
+This is intentional: schemalution is designed to be placed at the boundary that best fits your architecture.
 
 # Dev setup
 

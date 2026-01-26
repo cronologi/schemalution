@@ -1,0 +1,13 @@
+[build-system]
+requires = ["hatchling>=1.21"]
+build-backend = "hatchling.build"
+
+[project]
+name = "schemalution-pack-example-crm"
+version = "0.0.1"
+description = "Example CRM schema pack for schemalution."
+requires-python = ">=3.10"
+dependencies = ["schemalution-core", "schemalution-pack"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["schemalution_pack_example_crm"]

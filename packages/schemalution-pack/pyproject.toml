@@ -1,0 +1,13 @@
+[build-system]
+requires = ["hatchling>=1.21"]
+build-backend = "hatchling.build"
+
+[project]
+name = "schemalution-pack"
+version = "0.0.1"
+description = "Helpers for schemalution schema packs."
+requires-python = ">=3.10"
+dependencies = ["schemalution-core"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["schemalution_pack"]

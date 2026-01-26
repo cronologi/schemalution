@@ -1,0 +1,13 @@
+[build-system]
+requires = ["hatchling>=1.21"]
+build-backend = "hatchling.build"
+
+[project]
+name = "schemalution-spark"
+version = "0.0.1"
+description = "Spark adapter for schemalution."
+requires-python = ">=3.10"
+dependencies = ["schemalution-core", "pyspark"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["schemalution_spark"]

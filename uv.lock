@@ -4,13 +4,13 @@ requires-python = ">=3.10"
 
 [manifest]
 members = [
-    "schevo-compose",
-    "schevo-core",
-    "schevo-dev",
-    "schevo-mongo",
-    "schevo-pack",
-    "schevo-pack-example-crm",
-    "schevo-spark",
+    "schemalution-compose",
+    "schemalution-core",
+    "schemalution-dev",
+    "schemalution-mongo",
+    "schemalution-pack",
+    "schemalution-pack-example-crm",
+    "schemalution-spark",
 ]
 
 [[package]]
@@ -235,17 +235,17 @@ wheels = [
 ]
 
 [[package]]
-name = "schevo-compose"
+name = "schemalution-compose"
 version = "0.0.1"
-source = { editable = "packages/schevo-compose" }
+source = { editable = "packages/schemalution-compose" }
 
 [[package]]
-name = "schevo-core"
+name = "schemalution-core"
 version = "0.0.1"
-source = { editable = "packages/schevo-core" }
+source = { editable = "packages/schemalution-core" }
 
 [[package]]
-name = "schevo-dev"
+name = "schemalution-dev"
 version = "0.0.1"
 source = { editable = "." }
 
@@ -265,59 +265,59 @@ requires-dist = [
 provides-extras = ["dev"]
 
 [[package]]
-name = "schevo-mongo"
+name = "schemalution-mongo"
 version = "0.0.1"
-source = { editable = "packages/schevo-mongo" }
+source = { editable = "packages/schemalution-mongo" }
 dependencies = [
     { name = "pymongo" },
-    { name = "schevo-core" },
+    { name = "schemalution-core" },
 ]
 
 [package.metadata]
 requires-dist = [
     { name = "pymongo" },
-    { name = "schevo-core", editable = "packages/schevo-core" },
+    { name = "schemalution-core", editable = "packages/schemalution-core" },
 ]
 
 [[package]]
-name = "schevo-pack"
+name = "schemalution-pack"
 version = "0.0.1"
-source = { editable = "packages/schevo-pack" }
+source = { editable = "packages/schemalution-pack" }
 dependencies = [
-    { name = "schevo-core" },
+    { name = "schemalution-core" },
 ]
 
 [package.metadata]
-requires-dist = [{ name = "schevo-core", editable = "packages/schevo-core" }]
+requires-dist = [{ name = "schemalution-core", editable = "packages/schemalution-core" }]
 
 [[package]]
-name = "schevo-pack-example-crm"
+name = "schemalution-pack-example-crm"
 version = "0.0.1"
-source = { editable = "packages/schevo-pack-example-crm" }
+source = { editable = "packages/schemalution-pack-example-crm" }
 dependencies = [
-    { name = "schevo-core" },
-    { name = "schevo-pack" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "schevo-core", editable = "packages/schevo-core" },
-    { name = "schevo-pack", editable = "packages/schevo-pack" },
-]
-
-[[package]]
-name = "schevo-spark"
-version = "0.0.1"
-source = { editable = "packages/schevo-spark" }
-dependencies = [
-    { name = "pyspark" },
-    { name = "schevo-core" },
+    { name = "schemalution-core" },
+    { name = "schemalution-pack" },
 ]
 
 [package.metadata]
 requires-dist = [
+    { name = "schemalution-core", editable = "packages/schemalution-core" },
+    { name = "schemalution-pack", editable = "packages/schemalution-pack" },
+]
+
+[[package]]
+name = "schemalution-spark"
+version = "0.0.1"
+source = { editable = "packages/schemalution-spark" }
+dependencies = [
     { name = "pyspark" },
-    { name = "schevo-core", editable = "packages/schevo-core" },
+    { name = "schemalution-core" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "pyspark" },
+    { name = "schemalution-core", editable = "packages/schemalution-core" },
 ]
 
 [[package]]

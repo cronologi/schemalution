@@ -1,10 +1,10 @@
-# Schevo Deployment Architectures
+# schemalution Deployment Architectures
 
-Schevo is a **schema evolution engine**, not a database library.
+schemalution is a **schema evolution engine**, not a database library.
 
 Its purpose is to deterministically evolve records across schema versions and enable stable “latest” contracts—without prescribing *where* that evolution must happen.
 
-This allows Schevo to be deployed at different architectural boundaries depending on organizational needs, scale, and governance requirements.
+This allows schemalution to be deployed at different architectural boundaries depending on organizational needs, scale, and governance requirements.
 
 This document describes the **four recommended deployment architectures** and when to use each.
 
@@ -14,13 +14,13 @@ This document describes the **four recommended deployment architectures** and wh
 
 Regardless of deployment style:
 
-- Schevo performs **pure, deterministic transformations** (dict → dict).
+- schemalution performs **pure, deterministic transformations** (dict → dict).
 - Schema evolution logic lives in **schema packs**, not in application code.
 - Systems always operate on a **single canonical “latest” schema** internally.
 - Older stored versions are handled via **upcast-to-latest**, not branching logic.
 - Contracts (e.g. Pydantic models) are **separate from migrations**.
 
-Schevo can be placed wherever that boundary makes sense.
+schemalution can be placed wherever that boundary makes sense.
 
 ---
 
@@ -28,10 +28,10 @@ Schevo can be placed wherever that boundary makes sense.
 
 Each consumer that reads from the database applies schema evolution locally.
 
-MongoDB → schevo-core → latest dict → domain contract → service logic
+MongoDB → schemalution-core → latest dict → domain contract → service logic
 
 
-Schevo is used as a **library dependency** inside services.
+schemalution is used as a **library dependency** inside services.
 
 ### Key Decision Point
 You want teams to move fast with minimal infrastructure, and you can tolerate schema evolution at read time.
@@ -49,11 +49,11 @@ Schema evolution is applied once, centrally, and written into a **canonical “l
 
 Raw data (mixed versions)
 ↓
-Projection job (schevo)
+Projection job (schemalution)
 ↓
 Canonical latest store
 ↓
-Consumers (no schevo dependency)
+Consumers (no schemalution dependency)
 
 ### Key Decision Point
 You prefer centralized evolution so consumers can be simple and fast, even if the projection is eventually consistent.
@@ -69,7 +69,7 @@ You prefer centralized evolution so consumers can be simple and fast, even if th
 
 Schema evolution is centralized behind a **service boundary**.
 
-MongoDB → Schema Gateway (schevo)
+MongoDB → Schema Gateway (schemalution)
 ↓
 Latest contract API
 ↓
@@ -95,7 +95,7 @@ Older records are gradually migrated via background jobs until the database conv
 
 Writers → latest only
 ↓
-Background backfill (schevo)
+Background backfill (schemalution)
 ↓
 Fully latest store
 
@@ -111,10 +111,10 @@ You want to converge to a fully “latest” store and reduce long‑term read c
 
 ## Architecture Comparison (repeated sections consolidated)
 
-| Architecture | Where Schevo lives | When to use | Pros | Cons | Typical users |
+| Architecture | Where schemalution lives | When to use | Pros | Cons | Typical users |
 |---|---|---|---|---|---|
-| Embedded Schema-on-Read | Inside application code; typically via `schevo-core` + schema packs; often with `schevo-mongo` | Small to medium systems; few independent consumers; fast adoption with minimal infrastructure; services already share libs | Minimal moving parts; no extra services/pipelines; deterministic and testable; easy incremental adoption | Each consumer must adopt Schevo (or shared data lib); schema evolution runs at read time | APIs; background workers; internal tools |
-| Canonical Projection | Projection service or ETL job; batch or streaming (e.g. Spark / Databricks); not in consumers | Many independent consumers; performance-sensitive reads; analytics/dashboards/context stores; want to remove schema logic from apps | Consumers don’t need Schevo; fast stable reads; strong contract consistency; scales across teams | Requires projection pipelines; eventual consistency unless synchronized; additional storage | Analytics platforms; read-heavy APIs; agentic AI systems consuming “context bundles” |
+| Embedded Schema-on-Read | Inside application code; typically via `schemalution-core` + schema packs; often with `schemalution-mongo` | Small to medium systems; few independent consumers; fast adoption with minimal infrastructure; services already share libs | Minimal moving parts; no extra services/pipelines; deterministic and testable; easy incremental adoption | Each consumer must adopt schemalution (or shared data lib); schema evolution runs at read time | APIs; background workers; internal tools |
+| Canonical Projection | Projection service or ETL job; batch or streaming (e.g. Spark / Databricks); not in consumers | Many independent consumers; performance-sensitive reads; analytics/dashboards/context stores; want to remove schema logic from apps | Consumers don’t need schemalution; fast stable reads; strong contract consistency; scales across teams | Requires projection pipelines; eventual consistency unless synchronized; additional storage | Analytics platforms; read-heavy APIs; agentic AI systems consuming “context bundles” |
 | Schema Gateway | Dedicated “schema gateway” or data access service | Large orgs; many teams/external consumers; strong governance/security/audit; centralized schema policy | Single place to enforce rules; consumers stay simple; easy auth/rate limits/observability; clear ownership | Extra service to operate; added network hop; potential bottleneck without scaling | Enterprise APIs; partner integrations; regulated environments |
 | Write-Latest + Backfill | In writers and backfill jobs; eventually not needed on reads | Single writer or tightly controlled writers; simplify long-term reads; willing to run migration jobs | Simple steady-state reads; evolution cost amortized; clear long-term data shape | Backfills are operationally heavy; mixed versions temporarily; requires writer discipline | Operational systems with controlled write paths; teams planning long-term schema stabilization |
 
@@ -132,18 +132,18 @@ You want to converge to a fully “latest” store and reduce long‑term read c
 These architectures are **not mutually exclusive**.
 Many organizations evolve from Embedded → Projection or Gateway over time.
 
-Schevo supports all of them without changing core semantics.
+schemalution supports all of them without changing core semantics.
 
 ---
 
-Schevo does not force a single organizational model.
+schemalution does not force a single organizational model.
 
 Instead, it provides:
 - A **neutral evolution engine**
 - Clear boundaries between **evolution, contracts, and storage**
 - The freedom to place schema logic where it fits your architecture
 
-This makes Schevo suitable for:
+This makes schemalution suitable for:
 - Small teams
 - Large enterprises
 - Data platforms
@@ -152,6 +152,6 @@ This makes Schevo suitable for:
 
 ---
 
-Schevo is not “a Mongo library” or "a Spark library".
+schemalution is not “a Mongo library” or "a Spark library".
 
 It is a **schema evolution primitive** that can be embedded, centralized, projected, or phased out—depending on your needs.

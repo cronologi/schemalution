@@ -1,4 +1,4 @@
-"""Dev-only package for Schevo tooling."""
+"""Dev-only package for schemalution tooling."""
 
 from __future__ import annotations
 
