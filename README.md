@@ -359,7 +359,7 @@ Owns:
 Publishes:
 - new pack versions whenever the domain evolves
 
-#### Service teams (consumers)
+### Service teams (consumers)
 Own:
 - application logic
 - where schema evolution runs (read path, write path, gateway)
