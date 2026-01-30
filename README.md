@@ -1,6 +1,8 @@
 # schemalution
 >schemalution turns schema evolution into a first-class architectural capability, enabling systems to evolve continuously without downtime, coordination bottlenecks, or downstream breakage.
 
+schemalution is an open-source project; design and implementation choices should assume public consumption, transparent reasoning, and community review.
+
 ## Table of contents
 
 - [What schemalution enables](#what-schemalution-enables)
