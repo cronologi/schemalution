@@ -1,9 +1,11 @@
 from __future__ import annotations
 
+from typing import Mapping
+
 from schemalution_core import MigrationRegistry
 
 
-def _v1_to_v2(record: dict[str, object]) -> dict[str, object]:
+def _v1_to_v2(record: Mapping[str, object]) -> dict[str, object]:
     updated = dict(record)
     updated["v"] = 2
     return updated
