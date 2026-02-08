@@ -49,6 +49,8 @@ This repo is a monorepo with independently installable packages under `/packages
 - Keep functions small; avoid overengineering.
 
 ## Implementation roadmap (milestones)
+Additional milestone input data lives in `docs/milestones-input/`.
+
 M0: Scaffolding (done)
   - Risk loop: during work, log risks and mitigations in docs/Risks.md.
 M1: Core MVP (done)
@@ -93,9 +95,11 @@ M8.A: Public API freeze and guardrails. (done)
   - Risk loop: during work, log risks and mitigations in docs/Risks.md.
 
 ## AI interop & automation roadmap (milestones)
-M9: Registry export + CLI JSON I/O
+M9: Registry export + CLI JSON I/O (done)
   - Product fit: make schemalution usable by any tool or agent that can call a CLI with JSON.
   - Deliverables: `schemalution registry export` (JSON + optional DOT), `schemalution upcast` and `validate` with stdin/stdout JSON, versioned `--format` flag, stable output schema.
+  - Refinement notes: see `docs/milestones-input/M9.md`.
+  - Open question: should `validate` add a `--strict` mode (warnings -> failures), or remain upcast-only until M11?
   - Success looks like: non-Python tools can upcast/validate without importing schemalution, and registry export is consumed by at least one downstream tool.
   - Verify/review: CLI golden-output tests, schema versioning tests, docs updated with examples.
   - Risk loop: during work, log risks and mitigations in docs/Risks.md.
@@ -117,6 +121,8 @@ M11: Contract export (JSON Schema / OpenAPI)
 M12: Migration intelligence (AI-assistable)
   - Product fit: reduce migration authoring cost and enable agent-assisted changes.
   - Deliverables: schema diffing engine with rename/move/cast/default/coalesce heuristics, migration stub generator using ops DSL, actionable "unhandled diff" report.
+  - Interaction model: design-time diff -> plan -> generate pipeline with explicit human-in-the-loop resolution and versioned JSON artifacts (v1).
+  - Refinement notes: see `docs/milestones-input/M12.md`.
   - Success looks like: common changes are scaffolded automatically with minimal manual edits.
   - Verify/review: unit tests for diff heuristics, fixture-based migration generation tests, reviewer checklist for false positives.
   - Risk loop: during work, log risks and mitigations in docs/Risks.md.

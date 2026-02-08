@@ -82,6 +82,36 @@ class MigrationRegistry:
     def _migration_for(self, schema_id: str, from_version: int) -> MigrationFn | None:
         return self._migrations.get(schema_id, {}).get(from_version)
 
+    def schema_ids(self) -> list[str]:
+        """Return all schema_ids known to the registry, sorted for determinism."""
+        return sorted(set(self._latest_versions) | set(self._migrations))
+
+    def latest_versions(self) -> dict[str, int]:
+        """Return a copy of latest version mapping."""
+        return dict(self._latest_versions)
+
+    def list_migrations(self) -> list[MigrationEdge]:
+        """Return sequential migration edges registered in the registry."""
+        edges: list[MigrationEdge] = []
+        for schema_id in sorted(self._migrations):
+            migrations = self._migrations[schema_id]
+            for from_version in sorted(migrations):
+                edges.append(
+                    MigrationEdge(
+                        schema_id=schema_id,
+                        from_version=from_version,
+                        to_version=from_version + 1,
+                    )
+                )
+        return edges
+
+
+@dataclass(frozen=True, slots=True)
+class MigrationEdge:
+    schema_id: str
+    from_version: int
+    to_version: int
+
 
 def _can_accept_positional_context(signature: inspect.Signature) -> bool:
     positional = 0

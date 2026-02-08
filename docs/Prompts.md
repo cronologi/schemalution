@@ -384,6 +384,9 @@ Scope
 - Add `schemalution upcast` and `schemalution validate` that read stdin JSON and emit stdout JSON.
 - Add a stable, versioned output schema (`--format v1`).
 
+Notes
+- Refinement notes and proposed output schema: see `docs/milestones-input/M9.md`.
+
 Constraints
 - Do not break existing CLI behavior (if any).
 - Keep outputs deterministic and machine-readable.
@@ -495,6 +498,9 @@ Scope
 
 Constraints
 - Do not guess when the diff is ambiguous; surface as review required.
+
+Notes
+- Interaction model and artifact shapes: see `docs/milestones-input/M12.md`.
 
 Deliverables
 - Diff engine + stub generator + report output.

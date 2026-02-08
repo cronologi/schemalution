@@ -5,6 +5,7 @@
   "extraPaths": [
     "packages/schemalution-compose/src",
     "packages/schemalution-core/src",
+    "packages/schemalution-cli/src",
     "packages/schemalution-mongo/src",
     "packages/schemalution-pack/src",
     "packages/schemalution-pack-example-crm/src",

@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "schemalution CLI output v1",
+  "type": "object",
+  "required": ["format", "command", "schema_id", "success", "errors"],
+  "properties": {
+    "format": {"const": "v1"},
+    "command": {"enum": ["registry.export", "upcast", "validate"]},
+    "schema_id": {"type": ["string", "null"]},
+    "success": {"type": "boolean"},
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code", "message", "details"],
+        "properties": {
+          "code": {"type": "string"},
+          "message": {"type": "string"},
+          "details": {"type": "object"}
+        }
+      }
+    }
+  },
+  "oneOf": [
+    {
+      "title": "Registry export success",
+      "properties": {
+        "command": {"const": "registry.export"},
+        "success": {"const": true},
+        "schema_ids": {"type": "array", "items": {"type": "string"}},
+        "latest_versions": {"type": "object"},
+        "migrations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["schema_id", "from_version", "to_version", "op_count"],
+            "properties": {
+              "schema_id": {"type": "string"},
+              "from_version": {"type": "integer"},
+              "to_version": {"type": "integer"},
+              "op_count": {"type": ["integer", "null"]}
+            }
+          }
+        },
+        "packs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["module", "pack_id", "version", "schema_ids"],
+            "properties": {
+              "module": {"type": "string"},
+              "pack_id": {"type": "string"},
+              "version": {"type": ["string", "null"]},
+              "schema_ids": {"type": "array", "items": {"type": "string"}}
+            }
+          }
+        }
+      },
+      "required": ["schema_ids", "latest_versions", "migrations", "packs"]
+    },
+    {
+      "title": "Upcast success",
+      "properties": {
+        "command": {"const": "upcast"},
+        "success": {"const": true},
+        "input_version": {"type": ["integer", "null"]},
+        "output_version": {"type": ["integer", "null"]},
+        "record": {"type": "object"},
+        "warnings": {"type": "array", "items": {"type": "string"}},
+        "unknown_fields": {"type": "array", "items": {"type": "string"}},
+        "trace": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["schema_id", "from_version", "to_version"],
+            "properties": {
+              "schema_id": {"type": "string"},
+              "from_version": {"type": "integer"},
+              "to_version": {"type": "integer"}
+            }
+          }
+        }
+      },
+      "required": ["input_version", "output_version", "record", "warnings", "unknown_fields"]
+    },
+    {
+      "title": "Validate success",
+      "properties": {
+        "command": {"const": "validate"},
+        "success": {"const": true},
+        "is_valid": {"const": true},
+        "violations": {"type": "array"},
+        "warnings": {"type": "array", "items": {"type": "string"}},
+        "trace": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["schema_id", "from_version", "to_version"],
+            "properties": {
+              "schema_id": {"type": "string"},
+              "from_version": {"type": "integer"},
+              "to_version": {"type": "integer"}
+            }
+          }
+        }
+      },
+      "required": ["is_valid", "violations", "warnings"]
+    },
+    {
+      "title": "Registry export error",
+      "properties": {
+        "command": {"const": "registry.export"},
+        "success": {"const": false}
+      }
+    },
+    {
+      "title": "Upcast error",
+      "properties": {
+        "command": {"const": "upcast"},
+        "success": {"const": false}
+      }
+    },
+    {
+      "title": "Validate error",
+      "properties": {
+        "command": {"const": "validate"},
+        "success": {"const": false}
+      }
+    }
+  ]
+}

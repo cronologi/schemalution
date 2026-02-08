@@ -13,6 +13,7 @@ dev = [
   "ruff",
   "pyright",
   "pytest",
+  "jsonschema",
 ]
 
 [tool.hatch.build.targets.wheel]
@@ -44,3 +45,4 @@ schemalution-core = { workspace = true }
 schemalution-pack = { workspace = true }
 schemalution-mongo = { workspace = true }
 schemalution-spark = { workspace = true }
+schemalution-cli = { workspace = true }

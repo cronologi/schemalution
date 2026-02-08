@@ -13,10 +13,11 @@ from .errors import (
     UnsupportedSchemaIdError,
 )
 from .ops import compile_ops
-from .registry import MigrationRegistry, UpcastContext, upcast, upcast_to_latest
+from .registry import MigrationEdge, MigrationRegistry, UpcastContext, upcast, upcast_to_latest
 
 __all__ = [
     "MigrationRegistry",
+    "MigrationEdge",
     "UpcastContext",
     "compile_ops",
     "InvalidSchemaVersionError",

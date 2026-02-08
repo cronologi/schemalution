@@ -571,6 +571,47 @@ schemalution does not dictate where evolution happens — only how.
 
 This is intentional: schemalution is designed to be placed at the boundary that best fits your architecture.
 
+# CLI (JSON I/O)
+
+The `schemalution` CLI exposes registry export, upcast, and validate as deterministic JSON I/O.
+
+Install:
+
+```
+pip install schemalution-cli
+pip install schemalution-pack-example-crm
+```
+
+If you're working from this repo:
+
+```
+pip install -e packages/schemalution-cli
+pip install -e packages/schemalution-pack-example-crm
+```
+
+Quick start with environment variable:
+
+```
+export SCHEMALUTION_PACKS=schemalution_pack_example_crm
+schemalution registry export --format v1
+```
+
+```
+schemalution registry export --pack schemalution_pack_example_crm --format v1
+
+echo '{"schema_version": 1, "name": "Ada"}' | \
+  schemalution upcast --schema-id crm.customer --pack schemalution_pack_example_crm --format v1
+
+echo '{"schema_version": 1, "name": "Ada"}' | \
+  schemalution validate --schema-id crm.customer --pack schemalution_pack_example_crm --format v1
+```
+
+You can also provide packs via `SCHEMALUTION_PACKS` (comma-separated module names).
+`validate` currently checks that a record can be deterministically upcast to latest; it does not enforce
+domain contracts yet.
+
+Output schema (v1): `docs/cli/format-v1.schema.json`.
+
 # Dev setup
 
 From the repo root:
