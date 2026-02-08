@@ -22,5 +22,5 @@ def test_registry_introspection_methods() -> None:
     edges = registry.list_migrations()
     assert [(edge.schema_id, edge.from_version, edge.to_version) for edge in edges] == [
         ("billing.invoice", 1, 2),
-        ("crm.customer", 1, 2)
+        ("crm.customer", 1, 2),
     ]

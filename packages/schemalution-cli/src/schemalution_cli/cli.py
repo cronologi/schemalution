@@ -210,7 +210,9 @@ def _handle_validate(args: argparse.Namespace) -> int:
     return 0
 
 
-def _build_registry(pack_args: Iterable[str] | None, command: str) -> tuple[MigrationRegistry, list[Any]]:
+def _build_registry(
+    pack_args: Iterable[str] | None, command: str
+) -> tuple[MigrationRegistry, list[Any]]:
     module_names = resolve_pack_modules(pack_args)
     if not module_names:
         raise CLIError(
