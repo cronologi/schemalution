@@ -12,13 +12,13 @@ Make the benefits concrete by quantifying time saved per schema change and trans
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#E6F4FF', 'primaryTextColor': '#0F172A', 'primaryBorderColor': '#1D4ED8', 'lineColor': '#2563EB', 'secondaryColor': '#F1F5F9', 'tertiaryColor': '#E2E8F0', 'edgeLabelBackground': '#F8FAFC', 'fontFamily': 'Inter, system-ui, sans-serif', 'fontSize': '14px'}}}%%
 flowchart LR
-  A([Changes per month]) --> G([Annual hours saved])
-  B([Coordination hours]) --> G
-  C([Migration hours]) --> G
-  D([Downstream fix hours]) --> G
-  E([Incident hours]) --> G
-  G --> H([Annual cost saved])
-  F([Blended engineer cost/hr]) --> H
+  A([Changes per month ]) --> G([Annual hours saved ])
+  B([Coordination hours ]) --> G
+  C([Migration hours ]) --> G
+  D([Downstream fix hours ]) --> G
+  E([Incident hours ]) --> G
+  G --> H([Annual cost saved ])
+  F([Blended engineer cost/hr ]) --> H
 
   classDef input fill:#DBEAFE,stroke:#1D4ED8,stroke-width:2px,color:#0F172A;
   classDef calc fill:#ECFEFF,stroke:#06B6D4,stroke-width:2px,color:#0F172A;
