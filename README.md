@@ -6,19 +6,30 @@ Ship schema changes without downtime, coordination, or broken pipelines.
 schemalution turns schema evolution into a reusable capability across services, data platforms, and agents.
 
 ## Economic Value
-Make the benefits concrete by quantifying time saved per schema change and translating that into dollars.
 
-### Economic Value Model (Illustration)
+This section gives a quick, adjustable model to estimate ROI from faster, safer schema evolution.
+Swap in your own volumes and costs to make the numbers concrete.
+
+Assume:
+- 6 schema changes per month
+- 3h coordination + 6h migration + 12h downstream fixes + 2h incident time per change
+- $120 blended engineer cost/hr
+
+Then:
+- Hours saved per change = 23h
+- Annual hours saved = `6 * 12 * 23 = 1,656h`
+- Annual cost saved = `1,656h * $120/hr = $198,720`
+
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#E6F4FF', 'primaryTextColor': '#0F172A', 'primaryBorderColor': '#1D4ED8', 'lineColor': '#2563EB', 'secondaryColor': '#F1F5F9', 'tertiaryColor': '#E2E8F0', 'edgeLabelBackground': '#F8FAFC', 'fontFamily': 'Inter, system-ui, sans-serif', 'fontSize': '14px'}}}%%
 flowchart LR
-  A([Changes per month <span>&nbsp</span>]) --> G([Annual hours saved <span>&nbsp</span>])
-  B([Coordination hours <span>&nbsp</span>]) --> G
-  C([Migration hours <span>&nbsp</span>]) --> G
-  D([Downstream fix hours <span>&nbsp</span>]) --> G
-  E([Incident hours <span>&nbsp</span>]) --> G
-  G --> H([Annual cost saved <span>&nbsp</span>])
-  F([Blended engineer cost/hr <span>&nbsp</span>]) --> H
+  A([Changes per month: 6]) --> G([Annual hours saved: 1,656h])
+  B([Coordination: 3h]) --> G
+  C([Migration: 6h]) --> G
+  D([Downstream fixes: 12h]) --> G
+  E([Incidents: 2h]) --> G
+  G --> H([Annual cost saved: $198,720])
+  F([Blended cost/hr: $120]) --> H
 
   classDef input fill:#DBEAFE,stroke:#1D4ED8,stroke-width:2px,color:#0F172A;
   classDef calc fill:#ECFEFF,stroke:#06B6D4,stroke-width:2px,color:#0F172A;
@@ -31,18 +42,7 @@ flowchart LR
   linkStyle default stroke-width:2px;
 ```
 
-### Example (Illustrative)
-Assume:
-- 6 schema changes per month
-- 3h coordination + 6h migration + 12h downstream fixes + 2h incident time per change
-- $120 blended engineer cost/hr
-
-Then:
-- Hours saved per change = 23h
-- Annual hours saved = `6 * 12 * 23 = 1,656h`
-- Annual cost saved = `1,656h * $120/hr = $198,720`
-
-Schemalution reduces each bucket by turning schema evolution into deterministic, reusable code.
+Use this as a baseline; many teams could see additional upside from avoided delays, incident risk, and reduced cross-team coordination.
 
 ## What It Enables
 - Faster releases without waiting on migration windows.
@@ -55,11 +55,11 @@ Schemalution reduces each bucket by turning schema evolution into deterministic,
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#E6F4FF', 'primaryTextColor': '#0F172A', 'primaryBorderColor': '#1D4ED8', 'lineColor': '#2563EB', 'secondaryColor': '#F1F5F9', 'tertiaryColor': '#E2E8F0', 'edgeLabelBackground': '#F8FAFC', 'fontFamily': 'Inter, system-ui, sans-serif', 'fontSize': '14px'}}}%%
 flowchart LR
-  A([Schema changes + versioned records]) --> B([Schema packs + migrations])
-  B --> C([schemalution core + adapters])
-  C --> D([Upcast to latest at boundaries])
-  D --> E([Latest datasets + composed views])
-  E --> F([Faster releases + stable analytics])
+  A([Schema changes </br> + versioned records]) --> B([Schema packs </br> + migrations])
+  B --> C([schemalution core </br> + adapters])
+  C --> D([Upcast to latest </br> at boundaries])
+  D --> E([Latest datasets </br> + composed views])
+  E --> F([Faster releases </br> + stable analytics])
 
   classDef input fill:#DBEAFE,stroke:#1D4ED8,stroke-width:2px,color:#0F172A;
   classDef engine fill:#E0E7FF,stroke:#4338CA,stroke-width:2px,color:#0F172A;
@@ -89,12 +89,18 @@ graph LR
   C2([Schema packs per domain]) --> O2([Team autonomy])
   C3([Upcast-to-latest at boundaries]) --> O3([Faster releases])
   C4([Fragment composition]) --> O4([Multi-domain 360 views])
+  O1 -.-> I1([15–30% </br> lower compliance & audit cost])
+  O2 -.-> I2([20–40% </br> fewer coordination hours])
+  O3 -.-> I3([25–50% </br> shorter delivery cycle time])
+  O4 -.-> I4([20–40% </br> less cross-domain </br> integration effort])
 
   classDef cap fill:#DBEAFE,stroke:#1D4ED8,stroke-width:2px,color:#0F172A;
   classDef out fill:#DCFCE7,stroke:#16A34A,stroke-width:2px,color:#0F172A;
+  classDef impact fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px,color:#0F172A;
 
   class C1,C2,C3,C4 cap;
   class O1,O2,O3,O4 out;
+  class I1,I2,I3,I4 impact;
 
   linkStyle default stroke-width:2px;
 ```
@@ -243,9 +249,12 @@ Automation-friendly tooling is on the roadmap (e.g., helpers to validate packs a
 
 ## Docs, Contributing, License
 
+
 ### Docs
-- `docs/architectures.md`
-- `docs/cli/format-v1.schema.json`
+
+```bash
+docs/
+```
 
 ### Contributing
 ```bash
