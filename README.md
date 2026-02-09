@@ -23,13 +23,13 @@ Then:
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#E6F4FF', 'primaryTextColor': '#0F172A', 'primaryBorderColor': '#1D4ED8', 'lineColor': '#2563EB', 'secondaryColor': '#F1F5F9', 'tertiaryColor': '#E2E8F0', 'edgeLabelBackground': '#F8FAFC', 'fontFamily': 'Inter, system-ui, sans-serif', 'fontSize': '14px'}}}%%
 flowchart LR
-  A([Changes per month: 6]) --> G([Annual hours saved: 1,656h])
-  B([Coordination: 3h]) --> G
-  C([Migration: 6h]) --> G
-  D([Downstream fixes: 12h]) --> G
-  E([Incidents: 2h]) --> G
-  G --> H([Annual cost saved: $198,720])
-  F([Blended cost/hr: $120]) --> H
+  A([Changes per month: </br>6]) --> G([Annual hours saved: </br>1,656h])
+  B([Coordination: </br>3h]) --> G
+  C([Migration: </br>6h]) --> G
+  D([Downstream fixes: </br>12h]) --> G
+  E([Incidents: </br>2h]) --> G
+  G --> H([Annual cost saved: </br>$198,720])
+  F([Blended cost/hr: </br>$120]) --> H
 
   classDef input fill:#DBEAFE,stroke:#1D4ED8,stroke-width:2px,color:#0F172A;
   classDef calc fill:#ECFEFF,stroke:#06B6D4,stroke-width:2px,color:#0F172A;
