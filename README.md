@@ -1,398 +1,109 @@
 # schemalution
->schemalution turns schema evolution into a first-class architectural capability, enabling systems to evolve continuously without downtime, coordination bottlenecks, or downstream breakage.
+> schemalution turns schema evolution into a first-class architectural capability, enabling systems to evolve continuously without downtime, coordination bottlenecks, or downstream breakage.
 
-## Table of contents
+## Value Proposition
+Ship schema changes without downtime, coordination, or broken pipelines.  
+schemalution turns schema evolution into a reusable capability across services, data platforms, and agents.
 
-- [What schemalution enables](#what-schemalution-enables)
-- [What this unlocks](#what-this-unlocks)
-- [Without schemalution: tightly coupled deployments + repeated fixes](#1-without-schemalution-tightly-coupled-deployments--repeated-fixes)
-- [With schemalution: decoupled deploys + stable “latest” everywhere](#2-with-schemalution-decoupled-deploys--stable-latest-everywhere)
-- [How developers use schemalution (practical guide)](#how-developers-use-schemalution-practical-guide)
-- [Repo details](#repo-details)
-- [What schemalution is / is not](#what-schemalution-is--is-not)
-- [Design principles](#design-principles)
-- [Packages](#packages)
-- [Core workflow (minimal)](#core-workflow-minimal)
-- [Deployment architectures](#deployment-architectures)
-- [Repo layout](#repo-layout)
-- [End-to-end example: from raw data to composed view](#end-to-end-example-from-raw-data-to-composed-view)
-- [Dev setup](#dev-setup)
-- [Tests, linting, typing](#tests-linting-typing)
-- [Future (grounded)](#future-grounded)
+## Economic Value
+Make the benefits concrete by quantifying time saved per schema change and translating that into dollars.
 
-## What schemalution enables
-
-schemalution enables **continuous, zero-downtime evolution of data schemas** across services, pipelines, and domains.
-
-It allows systems to evolve without:
-- coordinated deployments,
-- blocking data migrations,
-- or breaking downstream consumers.
-
-Instead of treating schema changes as one-off operational events, schemalution makes schema evolution a **reusable, deterministic capability**.
-
----
-
-## What this unlocks
-
-### Zero-downtime deployments
-Services can be deployed independently of data migrations.
-
-Old and new records can safely coexist, while application code always operates on a single, canonical “latest” schema.  
-This works naturally for:
-- rolling deployments,
-- multi-tenant SaaS systems,
-- large or shared databases.
-
----
-
-### Stable downstream systems
-Schema changes no longer break ETL jobs, analytics pipelines, or projections.
-
-Downstream systems simply:
-- install the latest domain schema pack,
-- apply upcast-to-latest during ingestion or projection,
-- and continue operating on a stable schema shape.
-
-The same evolution logic is reused everywhere—no duplicated migration code.
-
----
-
-### Independent team and domain evolution
-Each domain owns its schema evolution and publishes a stable “latest” interpretation.
-
-Other teams consume that interpretation without coordinating on versions, timelines, or internal changes.  
-This enables parallel work across:
-- services,
-- data platforms,
-- and agent-based systems.
-
----
-
-### Deterministic and auditable data interpretation
-Any record, at any version, can be deterministically interpreted as the latest schema.
-
-Schema evolution becomes:
-- explicit,
-- testable,
-- replayable,
-- and preserved as code.
-
-This provides long-term confidence in how historical data is understood.
-
----
-
-### Flexible architecture placement
-The same schema evolution logic can be applied:
-- inside services (schema-on-read),
-- in Spark or Databricks pipelines,
-- behind a gateway service,
-- during controlled backfills,
-- or as part of multi-domain composition.
-
-Architects choose *where* evolution happens without changing *how* it works.
-
----
-
-## Without schemalution: tightly coupled deployments + repeated fixes
-
+### Economic Value Model (Illustration)
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#E6F4FF', 'primaryTextColor': '#0F172A', 'primaryBorderColor': '#1D4ED8', 'lineColor': '#2563EB', 'secondaryColor': '#F1F5F9', 'tertiaryColor': '#E2E8F0', 'edgeLabelBackground': '#F8FAFC', 'fontFamily': 'Inter, system-ui, sans-serif', 'fontSize': '14px'}}}%%
 flowchart LR
-  %% =========================
-  %% WITHOUT schemalution
-  %% =========================
+  A([Changes per month]) --> G([Annual hours saved])
+  B([Coordination hours]) --> G
+  C([Migration hours]) --> G
+  D([Downstream fix hours]) --> G
+  E([Incident hours]) --> G
+  G --> H([Annual cost saved])
+  F([Blended engineer cost/hr]) --> H
 
-  subgraph W[Without schemalution]
-    direction LR
+  classDef input fill:#DBEAFE,stroke:#1D4ED8,stroke-width:2px,color:#0F172A;
+  classDef calc fill:#ECFEFF,stroke:#06B6D4,stroke-width:2px,color:#0F172A;
+  classDef outcome fill:#DCFCE7,stroke:#16A34A,stroke-width:2px,color:#0F172A;
 
-    subgraph DomainTeam[Domain Team]
-      direction TB
-      D1[Change domain model  Customer v2 -> v3]
-      D2[DB migration script  backfill / alter shape]
-      D3[Deploy Service v3]
-    end
+  class A,B,C,D,E,F input;
+  class G calc;
+  class H outcome;
 
-    subgraph Storage[MongoDB]
-      direction TB
-      M1[(customers collection)]
-      M2[Mixed docs:  v1 / v2 / v3]
-    end
-
-    subgraph Services[Operational Services]
-      direction TB
-      S1[Customer API]
-      S2[Billing Service]
-      S3[Support Service]
-    end
-
-    subgraph DataPlatform[Data Platform]
-      direction TB
-      P1[Spark ETL Job]
-      P2[Warehouse / Lake]
-      P3[Dashboards]
-    end
-
-    subgraph Consumers[Consumers]
-      direction TB
-      C1[Web / Mobile]
-      C2[Ops Tools]
-      C3[Agents]
-    end
-
-    D1 --> D2 -->|requires coordination| D3
-
-    D2 -->|long-running backfill risk of downtime| M1
-    M1 --> M2
-
-    %% Services reading mixed data
-    M2 -->|reads mixed versions| S1
-    M2 -->|reads mixed versions| S2
-    M2 -->|reads mixed versions| S3
-
-    %% Each service handles versions ad-hoc
-    S1 -->|version branching if v1..v3| C1
-    S2 -->|version branching if v1..v3| C2
-    S3 -->|version branching if v1..v3| C3
-
-    %% ETL breaks when schema changes
-    M2 -->|schema drift| P1
-    P1 -->|BREAKS: missing/renamed fields| P2
-    P2 --> P3
-
-    %% Pain points
-    X1{{Problem: Coordinated deploys + risky migrations}}
-    X2{{Problem: Branching logic in every consumer}}
-    X3{{Problem: ETL breaks on schema change}}
-    X1 -.-> D2
-    X2 -.-> S1
-    X2 -.-> S2
-    X2 -.-> S3
-    X3 -.-> P1
-
-    classDef issue fill:#ffe5e5,stroke:#c0392b,stroke-width:2px,color:#8e1b10;
-    class X1,X2,X3 issue;
-  end
+  linkStyle default stroke-width:2px;
 ```
 
-## With schemalution: decoupled deploys + stable “latest” everywhere
+### Example (Illustrative)
+Assume:
+- 6 schema changes per month
+- 3h coordination + 6h migration + 12h downstream fixes + 2h incident time per change
+- $120 blended engineer cost/hr
 
+Then:
+- Hours saved per change = 23h
+- Annual hours saved = `6 * 12 * 23 = 1,656h`
+- Annual cost saved = `1,656h * $120/hr = $198,720`
+
+Schemalution reduces each bucket by turning schema evolution into deterministic, reusable code.
+
+## What It Enables
+- Faster releases without waiting on migration windows.
+- Stable analytics and AI even as schemas evolve.
+- Team autonomy through per-domain schema packs.
+- Auditability via deterministic, testable evolution paths.
+- Business logic that only sees the latest schema shape.
+
+## Value Flow
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#E6F4FF', 'primaryTextColor': '#0F172A', 'primaryBorderColor': '#1D4ED8', 'lineColor': '#2563EB', 'secondaryColor': '#F1F5F9', 'tertiaryColor': '#E2E8F0', 'edgeLabelBackground': '#F8FAFC', 'fontFamily': 'Inter, system-ui, sans-serif', 'fontSize': '14px'}}}%%
 flowchart LR
-  %% =========================
-  %% WITH schemalution
-  %% =========================
+  A([Schema changes + versioned records]) --> B([Schema packs + migrations])
+  B --> C([schemalution core + adapters])
+  C --> D([Upcast to latest at boundaries])
+  D --> E([Latest datasets + composed views])
+  E --> F([Faster releases + stable analytics])
 
-  subgraph S[With schemalution]
-    direction LR
+  classDef input fill:#DBEAFE,stroke:#1D4ED8,stroke-width:2px,color:#0F172A;
+  classDef engine fill:#E0E7FF,stroke:#4338CA,stroke-width:2px,color:#0F172A;
+  classDef output fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px,color:#0F172A;
+  classDef outcome fill:#DCFCE7,stroke:#16A34A,stroke-width:2px,color:#0F172A;
 
-    subgraph Packs[Schema Packs]
-      direction TB
-      SP1[Domain pack: crm.customer - latest schema - migrations v1->v2->v3]
-      SP2[Other domain packs  risk, support, billing...]
-    end
+  class A input;
+  class B,C,D engine;
+  class E output;
+  class F outcome;
 
-    subgraph Storage[MongoDB]
-      direction TB
-      M1[(customers collection)]
-      M2[Mixed docs:  v1 / v2 / v3]
-    end
-
-    subgraph Services[Operational Services]
-      direction TB
-      A1[Customer API  upcast on read]
-      A2[Billing Service  upcast on read]
-      A3[Support Service  upcast on read]
-    end
-
-    subgraph DataPlatform[Data Platform]
-      direction TB
-      E1[Spark/Databricks Projection  upcast during ingestion]
-      E2[(customers_latest materialized view)]
-      E3[Dashboards / ML]
-    end
-
-    subgraph Compose[Multi-domain Composition]
-      direction TB
-      K1[Fragments: crm.customer latest risk.score latest support.state latest]
-      K2[schemalution-compose  compose_root]
-      K3[(customer_360_latest)]
-    end
-
-    subgraph Consumers[Consumers]
-      direction TB
-      C1[Web / Mobile]
-      C2[Ops Tools]
-      C3[Agents]
-    end
-
-    %% Raw storage
-    M1 --> M2
-
-    %% Services install packs and upcast
-    Packs --> A1
-    Packs --> A2
-    Packs --> A3
-
-    M2 -->|read raw| A1
-    M2 -->|read raw| A2
-    M2 -->|read raw| A3
-
-    A1 -->|always latest shape| C1
-    A2 -->|always latest shape| C2
-    A3 -->|always latest shape| C3
-
-    %% Projection path: upcast once
-    Packs --> E1
-    M2 -->|read raw| E1
-    E1 -->|upcast to latest| E2
-    E2 --> E3
-
-    %% Composition for multi-domain / agent context
-    E2 -->|latest fragments| K1
-    K1 --> K2 --> K3
-    K3 -->|stable composed view| C3
-
-    %% What schemalution enables
-    B1{{Enables: Zero-downtime deploys  no forced backfills}}
-    B2{{Enables: No version branching in consumers}}
-    B3{{Enables: ETL/projections stable: install new pack, upcast-to-latest}}
-    B4{{Enables: Multi-domain composition for 360 views / agents}}
-    B1 -.-> Packs
-    B2 -.-> A1
-    B3 -.-> E1
-    B4 -.-> K2
-
-    classDef enable fill:#e7f7e7,stroke:#1e7d32,stroke-width:2px,color:#0b4f1a;
-    class B1,B2,B3,B4 enable;
-  end
-
+  linkStyle default stroke-width:2px;
 ```
 
-# How developers use schemalution (practical guide)
+## Core Capabilities → Outcomes
+- Deterministic migrations (pure functions) → auditability and repeatable evolution.
+- Schema packs per domain → team autonomy and reuse across services.
+- Upcast-to-latest at boundaries → business logic only sees the latest schema.
+- Optional adapters (MongoDB, Spark) → stable projections and analytics.
+- Fragment composition (`schemalution-compose`) → multi-domain 360 views.
 
-schemalution is intentionally split into a small core and optional boundary adapters.  
-Most teams will create **one schema pack per domain** and then reuse it across services and pipelines.
+## Capabilities → Outcomes Map
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#E6F4FF', 'primaryTextColor': '#0F172A', 'primaryBorderColor': '#1D4ED8', 'lineColor': '#2563EB', 'secondaryColor': '#F1F5F9', 'tertiaryColor': '#E2E8F0', 'edgeLabelBackground': '#F8FAFC', 'fontFamily': 'Inter, system-ui, sans-serif', 'fontSize': '14px'}}}%%
+graph LR
+  C1([Deterministic migrations]) --> O1([Auditability])
+  C2([Schema packs per domain]) --> O2([Team autonomy])
+  C3([Upcast-to-latest at boundaries]) --> O3([Faster releases])
+  C4([Fragment composition]) --> O4([Multi-domain 360 views])
 
----
+  classDef cap fill:#DBEAFE,stroke:#1D4ED8,stroke-width:2px,color:#0F172A;
+  classDef out fill:#DCFCE7,stroke:#16A34A,stroke-width:2px,color:#0F172A;
 
-## Step 1 — What to install (by project type)
+  class C1,C2,C3,C4 cap;
+  class O1,O2,O3,O4 out;
 
-### Domain schema pack (owned by a domain team)
-Install:
-- `schemalution-core`
-- `schemalution-pack`
+  linkStyle default stroke-width:2px;
+```
 
-You create:
-- `schemalution-pack-<your-domain>` (your package)
-
-Purpose:
-- Defines schema IDs, latest versions, and migrations (upcasters).
-
----
-
-### API / service (operational read/write)
-Install:
-- `schemalution-core`
-- your domain pack(s) (e.g. `schemalution-pack-crm`)
-Optional:
-- `schemalution-mongo` (if reading/writing MongoDB)
-
-Purpose:
-- Reads records and upcasts to the latest schema on read (or enforces latest on write).
-
----
-
-### Spark / Databricks pipeline (ETL / projections)
-Install:
-- `schemalution-core`
-- your domain pack(s)
-Optional:
-- `schemalution-spark`
-
-Purpose:
-- Upcasts mixed-version raw data during ingestion/projection to prevent schema breakage.
-
----
-
-### Projection / composition service (multi-domain “root” views)
-Install:
-- `schemalution-core`
-- domain pack(s)
-- `schemalution-compose`
-
-Purpose:
-- Combines multiple domain fragments into a stable composed view (e.g., customer 360).
-
----
-
-## Step 2 — What you build (the packages you create)
-
-A typical organization creates:
-
-1) **Domain schema pack(s)**
-- `schemalution-pack-crm`
-- `schemalution-pack-billing`
-- `schemalution-pack-risk`
-Each pack contains:
-- `SchemaSpec` (schema_id, latest_version, metadata)
-- migrations vN → vN+1
-- a `register(registry)` function
-- tests + fixtures
-
-2) **(Optional) Contracts package**
-- `crm-contracts` (Pydantic models, OpenAPI/JSON Schema)
-This stays separate from schemalution:
-- schemalution evolves records to “latest”
-- Contracts validate/parse “latest”
-
-This separation keeps schemalution framework-agnostic and interoperable.
-
----
-
-## Step 3 — Who owns what (roles & responsibilities)
-
-### Domain team (schema owners)
-Owns:
-- the domain schema pack (`schemalution-pack-<domain>`)
-- the meaning of fields and evolution decisions
-- migration tests and fixtures
-Publishes:
-- new pack versions whenever the domain evolves
-
-### Service teams (consumers)
-Own:
-- application logic
-- where schema evolution runs (read path, write path, gateway)
-Consume:
-- domain schema packs
-Use:
-- upcast-to-latest at the boundary, so business logic only sees the latest shape
-
-### Data platform team (ETL / analytics)
-Owns:
-- projection pipelines (Spark/Databricks)
-Consumes:
-- the same domain schema packs
-Uses:
-- upcast during ingestion/projection to keep pipelines stable even when schemas evolve
-
-### Platform/architecture (optional, in larger orgs)
-May own:
-- a Schema Gateway service (central boundary)
-- canonical “latest” projection datasets
-- shared data access libraries
-schemalution supports all of these without changing core semantics.
-
----
-
-## Step 4 — The core workflow (always the same)
-
-1) Create a registry
-2) Register one or more schema packs
-3) Upcast any record to latest
-4) (Optional) Validate with your contract model
-
-Example (using the included example pack):
+## Quick Start (Minimal)
+The core workflow is always the same.
+1. Create a registry.
+2. Register one or more schema packs.
+3. Upcast any record to the latest schema.
 
 ```python
 from schemalution_core import MigrationRegistry, upcast_to_latest
@@ -405,32 +116,43 @@ record = {"schema_version": 1, "customerId": "c-1", "name": "Ada", "age": "42"}
 latest = upcast_to_latest(record, SCHEMA_ID, registry)
 ```
 
-# Repo details
+## Typical Use Cases / Scenarios
+- Embedded Schema-on-Read inside services for always-latest business logic.
+- Canonical Projection to materialize the latest datasets for analytics and ML.
+- Multi-domain composition for “customer 360” style views and agents.
+- Schema Gateway for centralized enforcement of the latest schemas.
+- Write-Latest + Backfill where writers enforce the latest and storage converges.
 
-This repo contains the core engine plus small adapters for common boundaries.
-See `docs/architectures.md` for deployment patterns.
+## Challenges It Solves (Secondary)
+- Coordination bottlenecks for schema changes across teams.
+- Long-running backfills and tightly coupled deployments.
+- Version-branching logic duplicated across consumers.
+- Schema drift in pipelines and analytics.
+- Inconsistent interpretation of historical data.
 
-## What schemalution is / is not
+## How It Works / Concepts
 
-**schemalution is**
+### How it works (one line)
+Define schema packs → upcast to latest at your boundary → reuse everywhere.
+
+### What schemalution is
 - A deterministic schema evolution engine (dict → dict).
-- A way to define migrations per schema ID and upcast records to the latest version.
+- A way to define migrations per schema ID and to upcast records to the latest version.
 - A small set of adapters for MongoDB/Spark workflows.
 
-**schemalution is not**
+### What schemalution is not
 - A database, ORM, or persistence layer.
 - A framework that owns your runtime or service boundaries.
 - A contract model generator (contracts are separate).
 
-## Design principles
-
+### Design Principles
 - Deterministic migrations: pure functions, no I/O.
 - Packs own domain evolution; core stays dependency-light.
 - Upcast-to-latest is the default consumer path.
 - Adapters are optional and thin.
 
-## Packages
-
+### Packages
+- `schemalution-cli`: CLI for registry export, upcast, and validate.
 - `schemalution-core`: Migration registry, upcast helpers, diagnostics, and ops DSL.
 - `schemalution-pack`: Minimal helpers for authoring schema packs.
 - `schemalution-pack-example-crm`: Example `crm.customer` pack used in tests.
@@ -438,97 +160,13 @@ See `docs/architectures.md` for deployment patterns.
 - `schemalution-spark`: JSON + UDF helpers for projection pipelines.
 - `schemalution-compose`: Deterministic fragment composition utilities.
 
-## Core workflow (minimal)
+### Deployment Architectures
+- Embedded Schema-on-Read: upcast inside services on every read.
+- Canonical Projection: upcast once into a latest “materialized” store.
+- Schema Gateway: central service enforces schema upgrades.
+- Write-Latest + Backfill: writers enforce latest; backfill converges storage.
 
-```python
-from schemalution_core import MigrationRegistry, upcast_to_latest
-from schemalution_pack_example_crm import SCHEMA_ID, register
-
-registry = MigrationRegistry()
-register(registry)
-
-record = {"schema_version": 1, "customerId": "c-1", "name": "Ada", "age": "42"}
-latest = upcast_to_latest(record, SCHEMA_ID, registry)
-```
-
-# Deployment architectures
-
-schemalution supports multiple boundaries without changing core semantics:
-
-- **Embedded Schema-on-Read**: upcast inside services on every read.
-- **Canonical Projection**: upcast once into a latest “materialized” store.
-- **Schema Gateway**: central service enforces schema upgrades.
-- **Write-Latest + Backfill**: writers enforce latest; backfill converges storage.
-
-Details: `docs/architectures.md`.
-
-# Repo layout
-
-```json
-packages/
-  schemalution-core/
-  schemalution-pack/
-  schemalution-mongo/
-  schemalution-spark/
-  schemalution-compose/
-  schemalution-pack-example-crm/
-```
-
-Each package is independently installable and uses a src/ layout.
-
-# End-to-end example: from raw data to composed view
-
-This short narrative illustrates how schemalution is typically used across multiple boundaries in a real system.
-
-## Scenario
-
-A customer domain evolves over time. Data is stored in MongoDB with mixed schema versions.
-Multiple consumers exist:
-
-APIs need the latest customer shape.
-
-Analytics requires a canonical, query-friendly dataset.
-
-A higher-level “customer 360” view combines data from multiple domains.
-
-schemalution is used as the evolution primitive, placed differently at each boundary.
-
-## 1. Raw domain data (mixed versions)
-
-MongoDB contains customer records with different schema versions:
-
-```json
-{
-  "schema_id": "crm.customer",
-  "schema_version": 1,
-  "customerId": "c-1",
-  "name": "Ada",
-  "age": "42"
-}
-```
-The domain pack (schemalution-pack-example-crm) defines how this record evolves to the latest schema.
-
-## 2. Operational read path (Embedded Schema-on-Read)
-
-An API service reads directly from MongoDB and upcasts on read:
-
-```python
-from schemalution_core import MigrationRegistry, upcast_to_latest
-from schemalution_pack_example_crm import SCHEMA_ID, register
-
-registry = MigrationRegistry()
-register(registry)
-
-latest = upcast_to_latest(raw_record, SCHEMA_ID, registry)
-```
-
-Inside the service, all logic operates on the latest schema only.
-No branching on versions is required.
-
-## 3. Projection pipeline (Canonical Projection)
-
-For analytics and downstream consumers, schema evolution is applied once in a batch or streaming job (e.g. Spark / Databricks):
-
+### Example: Projection Pipeline (Spark / Databricks)
 ```python
 from schemalution_spark import make_upcast_to_latest_json_udf
 
@@ -540,13 +178,7 @@ df_latest = df_raw.withColumn(
 )
 ```
 
-The output is written to a canonical “latest” dataset.
-Consumers of this dataset do not need schemalution at all.
-
-## 4. Multi-domain composition (Customer 360 view)
-
-Independent domain projections (CRM, risk, support, etc.) are composed into a single root view:
-
+### Example: Multi-domain Composition
 ```python
 from schemalution_compose import Fragment, compose_root
 
@@ -559,44 +191,28 @@ root = compose_root(
 )
 ```
 
-Each fragment remains traceable to its domain, while the root view provides a unified shape for agents, APIs, or reporting.
-
-## What this shows
-
-Schema evolution logic is written once, in schema packs.
-
-The same migrations power: **operational reads**, **projection pipelines**, **multi-domain composition**.
-
-schemalution does not dictate where evolution happens — only how.
-
-This is intentional: schemalution is designed to be placed at the boundary that best fits your architecture.
-
-# CLI (JSON I/O)
-
+## CLI (JSON I/O)
 The `schemalution` CLI exposes registry export, upcast, and validate as deterministic JSON I/O.
 
 Install:
-
-```
+```bash
 pip install schemalution-cli
 pip install schemalution-pack-example-crm
 ```
 
 If you're working from this repo:
-
-```
+```bash
 pip install -e packages/schemalution-cli
 pip install -e packages/schemalution-pack-example-crm
 ```
 
-Quick start with environment variable:
-
-```
+Quick start with an environment variable:
+```bash
 export SCHEMALUTION_PACKS=schemalution_pack_example_crm
 schemalution registry export --format v1
 ```
 
-```
+```bash
 schemalution registry export --pack schemalution_pack_example_crm --format v1
 
 echo '{"schema_version": 1, "name": "Ada"}' | \
@@ -606,32 +222,45 @@ echo '{"schema_version": 1, "name": "Ada"}' | \
   schemalution validate --schema-id crm.customer --pack schemalution_pack_example_crm --format v1
 ```
 
-You can also provide packs via `SCHEMALUTION_PACKS` (comma-separated module names).
-`validate` currently checks that a record can be deterministically upcast to latest; it does not enforce
-domain contracts yet.
-
+You can also provide packs via `SCHEMALUTION_PACKS` (comma-separated module names).  
+`validate` currently checks that a record can be deterministically upcast to latest; it does not enforce domain contracts yet.  
 Output schema (v1): `docs/cli/format-v1.schema.json`.
 
-# Dev setup
-
-From the repo root:
-
+## Repo Layout
+```json
+packages/
+  schemalution-cli/
+  schemalution-core/
+  schemalution-pack/
+  schemalution-mongo/
+  schemalution-spark/
+  schemalution-compose/
+  schemalution-pack-example-crm/
 ```
+
+## Future (Grounded)
+Automation-friendly tooling is on the roadmap (e.g., helpers to validate packs and run migrations in batches), but the core stays small and explicit.
+
+## Docs, Contributing, License
+
+### Docs
+- `docs/architectures.md`
+- `docs/cli/format-v1.schema.json`
+
+### Contributing
+```bash
 make setup
 make venv
 make sync
 ```
 
-## Tests, linting, typing
-
-```
+### Tests, Linting, Typing
+```bash
 make lint
 make format
 make typecheck
 make test
 ```
 
-# Future (grounded)
-
-Automation-friendly tooling is on the roadmap (e.g., helpers to validate packs
-and run migrations in batch), but the core stays small and explicit.
+### License
+- `LICENSE`
