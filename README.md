@@ -54,22 +54,58 @@ Use this as a baseline; many teams could see additional upside from avoided dela
 ## Value Flow
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#E6F4FF', 'primaryTextColor': '#0F172A', 'primaryBorderColor': '#1D4ED8', 'lineColor': '#2563EB', 'secondaryColor': '#F1F5F9', 'tertiaryColor': '#E2E8F0', 'edgeLabelBackground': '#F8FAFC', 'fontFamily': 'Inter, system-ui, sans-serif', 'fontSize': '14px'}}}%%
-flowchart LR
-  A([Schema changes </br> + versioned records]) --> B([Schema packs </br> + migrations])
-  B --> C([schemalution core </br> + adapters])
-  C --> D([Upcast to latest </br> at boundaries])
-  D --> E([Latest datasets </br> + composed views])
-  E --> F([Faster releases </br> + stable analytics])
+flowchart 
+  subgraph LR W["Without schemalution"]
+    W1([Schema change]) --> W2([Manual coordination </br> + migration scripts])
+    W2 --> W3([Backfills </br> + long-running jobs])
+    W3 --> W4([Consumer fixes </br> + version branching])
+    W4 --> W5([Downtime risk </br> + drifted analytics])
+  end
 
+  classDef pain fill:#FEE2E2,stroke:#EF4444,stroke-width:2px,color:#991B1B;
+  classDef effort fill:#FFEDD5,stroke:#F97316,stroke-width:2px,color:#9A3412;
   classDef input fill:#DBEAFE,stroke:#1D4ED8,stroke-width:2px,color:#0F172A;
   classDef engine fill:#E0E7FF,stroke:#4338CA,stroke-width:2px,color:#0F172A;
   classDef output fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px,color:#0F172A;
   classDef outcome fill:#DCFCE7,stroke:#16A34A,stroke-width:2px,color:#0F172A;
 
-  class A input;
-  class B,C,D engine;
-  class E output;
-  class F outcome;
+  class W1 pain;
+  class W2,W3,W4 effort;
+  class W5 pain;
+  class S1 input;
+  class S2,S3,S4 engine;
+  class S5 output;
+  class S6 outcome;
+
+  linkStyle default stroke-width:2px;
+```
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#E6F4FF', 'primaryTextColor': '#0F172A', 'primaryBorderColor': '#1D4ED8', 'lineColor': '#2563EB', 'secondaryColor': '#F1F5F9', 'tertiaryColor': '#E2E8F0', 'edgeLabelBackground': '#F8FAFC', 'fontFamily': 'Inter, system-ui, sans-serif', 'fontSize': '14px'}}}%%
+flowchart 
+  
+  subgraph LR S["With schemalution"]
+    S1([Schema change </br> + versioned records]) --> S2([Schema packs </br> + deterministic migrations])
+    S2 --> S3([schemalution core </br> + adapters])
+    S3 --> S4([Upcast to latest </br> at boundaries])
+    S4 --> S5([Latest datasets </br> + composed views])
+    S5 --> S6([Faster releases </br> + stable analytics])
+  end
+
+  classDef pain fill:#FEE2E2,stroke:#EF4444,stroke-width:2px,color:#991B1B;
+  classDef effort fill:#FFEDD5,stroke:#F97316,stroke-width:2px,color:#9A3412;
+  classDef input fill:#DBEAFE,stroke:#1D4ED8,stroke-width:2px,color:#0F172A;
+  classDef engine fill:#E0E7FF,stroke:#4338CA,stroke-width:2px,color:#0F172A;
+  classDef output fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px,color:#0F172A;
+  classDef outcome fill:#DCFCE7,stroke:#16A34A,stroke-width:2px,color:#0F172A;
+
+  class W1 pain;
+  class W2,W3,W4 effort;
+  class W5 pain;
+  class S1 input;
+  class S2,S3,S4 engine;
+  class S5 output;
+  class S6 outcome;
 
   linkStyle default stroke-width:2px;
 ```
@@ -129,7 +165,7 @@ latest = upcast_to_latest(record, SCHEMA_ID, registry)
 - Schema Gateway for centralized enforcement of the latest schemas.
 - Write-Latest + Backfill where writers enforce the latest and storage converges.
 
-## Challenges It Solves (Secondary)
+## Challenges It Solves
 - Coordination bottlenecks for schema changes across teams.
 - Long-running backfills and tightly coupled deployments.
 - Version-branching logic duplicated across consumers.
@@ -244,8 +280,8 @@ packages/
   schemalution-pack-example-crm/
 ```
 
-## Future (Grounded)
-Automation-friendly tooling is on the roadmap (e.g., helpers to validate packs and run migrations in batches), but the core stays small and explicit.
+## Future
+Automation-friendly tooling is on the roadmap (e.g., helpers to validate packs and run migrations in batches, MCP server, AI-assistet migration creation and diff resolution), but the core stays small and explicit.
 
 ## Docs, Contributing, License
 
