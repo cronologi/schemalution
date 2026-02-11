@@ -19,10 +19,10 @@ schemalution turns schema evolution into a reusable capability across services, 
           <th>Model</th>
         </tr>
         <tr>
-          <td><strong>Assume</strong><br>6 changes / month<br>3 + 6 + 12 + 2 = 23h / change<br>$120 / hour</td>
+          <td><strong>Assume</strong><br>6 changes / month<br>23h / change<br>$120 / hour</td>
         </tr>
         <tr>
-          <td><strong>Then</strong><br>1,656h saved / year<br>$198,720 saved / year<br>6 x 12 x 23; 1,656 x $120</td>
+          <td><strong>Then</strong><br>1,656h saved / year<br>$198,720 saved / year<br></td>
         </tr>
       </table>
     </td>
