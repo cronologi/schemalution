@@ -1,29 +1,51 @@
 # schemalution
 > schemalution turns schema evolution into a first-class architectural capability, enabling systems to evolve continuously without downtime, coordination bottlenecks, or downstream breakage.
 
-## Value Proposition
+## Value
 Ship schema changes without downtime, coordination, or broken pipelines.  
 schemalution turns schema evolution into a reusable capability across services, data platforms, and agents.
 
-## Economic Value
-
-This section gives a quick, adjustable model to estimate ROI from faster, safer schema evolution.
-Swap in your own volumes and costs to make the numbers concrete.
-
-Assume:
-- 6 schema changes per month
-- 3h coordination + 6h migration + 12h downstream fixes + 2h incident time per change
-- $120 blended engineer cost/hr
-
-Then:
-- Hours saved per change = 23h
-- Annual hours saved = `6 * 12 * 23 = 1,656h`
-- Annual cost saved = `1,656h * $120/hr = $198,720`
-
-<picture>
-  <source media="(max-width: 768px)" srcset="assets/diagrams/economic-value-mobile.svg">
-  <img src="assets/diagrams/economic-value.svg" alt="Economic value model">
-</picture>
+<table width="100%">
+  <tr>
+    <td width="54%" valign="top" align="left">
+      <picture>
+        <source media="(max-width: 768px)" srcset="assets/diagrams/economic-value-mobile.svg">
+        <img src="assets/diagrams/economic-value.svg" alt="Economic value model" width="100%">
+      </picture>
+    </td>
+    <td width="46%" valign="top">
+      <table>
+        <tr>
+          <th>Type</th>
+          <th>Metric</th>
+          <th>Value</th>
+        </tr>
+        <tr>
+          <td rowspan="3"><strong>Assume</strong></td>
+          <td>Changes / month</td>
+          <td>6</td>
+        </tr>
+        <tr>
+          <td>Hours / change</td>
+          <td>3 + 6 + 12 + 2 = 23h</td>
+        </tr>
+        <tr>
+          <td>Cost / hour</td>
+          <td>$120</td>
+        </tr>
+        <tr>
+          <td rowspan="2"><strong>Then</strong></td>
+          <td>Hours saved / year</td>
+          <td>6 x 12 x 23 = 1,656h</td>
+        </tr>
+        <tr>
+          <td>Cost saved / year</td>
+          <td>1,656 x $120 = $198,720</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
 
 Use this as a baseline; many teams could see additional upside from avoided delays, incident risk, and reduced cross-team coordination.
 
@@ -54,20 +76,6 @@ Use this as a baseline; many teams could see additional upside from avoided dela
   </tr>
 </table>
 
-## Core Capabilities
-| Capability | Why It Matters |
-| --- | --- |
-| Deterministic migrations (pure functions) | Enables auditability and repeatable evolution |
-| Schema packs per domain | Supports team autonomy and reuse across services |
-| Upcast-to-latest at boundaries | Keeps business logic on a single latest schema shape |
-| Optional adapters (MongoDB, Spark) | Stabilizes projections and analytics workflows |
-| Fragment composition (`schemalution-compose`) | Enables multi-domain 360 views |
-
-<picture>
-  <source media="(max-width: 768px)" srcset="assets/diagrams/capabilities-outcomes-mobile.svg">
-  <img src="assets/diagrams/capabilities-outcomes.svg" alt="Capabilities to outcomes map">
-</picture>
-
 ## Quick Start (Minimal)
 The core workflow is always the same.
 1. Create a registry.
@@ -85,34 +93,15 @@ record = {"schema_version": 1, "customerId": "c-1", "name": "Ada", "age": "42"}
 latest = upcast_to_latest(record, SCHEMA_ID, registry)
 ```
 
-## Typical Use Cases / Scenarios
-- Embedded Schema-on-Read inside services for always-latest business logic.
-- Canonical Projection to materialize the latest datasets for analytics and ML.
-- Multi-domain composition for “customer 360” style views and agents.
-- Schema Gateway for centralized enforcement of the latest schemas.
-- Write-Latest + Backfill where writers enforce the latest and storage converges.
+## How It Works
 
-## Challenges It Solves
-- Coordination bottlenecks for schema changes across teams.
-- Long-running backfills and tightly coupled deployments.
-- Version-branching logic duplicated across consumers.
-- Schema drift in pipelines and analytics.
-- Inconsistent interpretation of historical data.
-
-## How It Works / Concepts
-
-### How it works (one line)
 Define schema packs → upcast to latest at your boundary → reuse everywhere.
 
-### What schemalution is
-- A deterministic schema evolution engine (dict → dict).
-- A way to define migrations per schema ID and to upcast records to the latest version.
-- A small set of adapters for MongoDB/Spark workflows.
-
-### What schemalution is not
-- A database, ORM, or persistence layer.
-- A framework that owns your runtime or service boundaries.
-- A contract model generator (contracts are separate).
+| What schemalution is | What schemalution is not |
+| --- | --- |
+| A deterministic schema evolution engine (dict → dict) | A database, ORM, or persistence layer |
+| A way to define migrations per schema ID and upcast records to latest | A framework that owns your runtime or service boundaries |
+| A small set of adapters for MongoDB and Spark workflows | A contract model generator (contracts are separate) |
 
 ### Design Principles
 - Deterministic migrations: pure functions, no I/O.
@@ -128,12 +117,6 @@ Define schema packs → upcast to latest at your boundary → reuse everywhere.
 - `schemalution-mongo`: Thin helpers for read/upcast/write against MongoDB.
 - `schemalution-spark`: JSON + UDF helpers for projection pipelines.
 - `schemalution-compose`: Deterministic fragment composition utilities.
-
-### Deployment Architectures
-- Embedded Schema-on-Read: upcast inside services on every read.
-- Canonical Projection: upcast once into a latest “materialized” store.
-- Schema Gateway: central service enforces schema upgrades.
-- Write-Latest + Backfill: writers enforce latest; backfill converges storage.
 
 ### Example: Projection Pipeline (Spark / Databricks)
 ```python
@@ -159,6 +142,25 @@ root = compose_root(
     root_schema_id="customer.root_360",
 )
 ```
+
+## Core Capabilities
+| | |
+| --- | --- |
+| Deterministic migrations (pure functions) | Enables auditability and repeatable evolution |
+| Schema packs per domain | Supports team autonomy and reuse across services |
+| Upcast-to-latest at boundaries | Keeps business logic on a single latest schema shape |
+| Optional adapters (MongoDB, Spark) | Stabilizes projections and analytics workflows |
+| Fragment composition (`schemalution-compose`) | Enables multi-domain 360 views |
+
+<picture>
+  <source media="(max-width: 768px)" srcset="assets/diagrams/capabilities-outcomes-mobile.svg">
+  <img src="assets/diagrams/capabilities-outcomes.svg" alt="Capabilities to outcomes map">
+</picture>
+
+## Use Cases and Challenges
+| Typical Use Cases / Scenarios | Challenges It Solves |
+| --- | --- |
+| Embedded schema-on-read inside services for always-latest business logic<br>Canonical projection to materialize latest datasets for analytics and ML<br>Multi-domain composition for customer-360 style views and agents<br>Schema gateway for centralized enforcement of latest schemas<br>Write-latest + backfill where writers enforce latest and storage converges | Coordination bottlenecks for schema changes across teams<br>Long-running backfills and tightly coupled deployments<br>Version-branching logic duplicated across consumers<br>Schema drift in pipelines and analytics<br>Inconsistent interpretation of historical data |
 
 ## CLI (JSON I/O)
 The `schemalution` CLI exposes registry export, upcast, and validate as deterministic JSON I/O.

@@ -6,14 +6,7 @@ digraph value_flow_without {
     nodesep="0.45",
     ranksep="0.62",
     fontname="Cascadia Code, DejaVu Sans Mono, Noto Mono",
-    fontsize=15,
-    labelloc="t",
-    label=<
-      <TABLE BORDER="0" CELLBORDER="0" CELLPADDING="2" CELLSPACING="0">
-        <TR><TD ALIGN="CENTER"><FONT POINT-SIZE="22" COLOR="#E6EDF3"><B>Value Flow Without schemalution</B></FONT></TD></TR>
-        <TR><TD ALIGN="CENTER"><FONT POINT-SIZE="12" COLOR="#9DA5B4">Manual migration work compounds risk and delivery cost</FONT></TD></TR>
-      </TABLE>
-    >
+    fontsize=15
   ];
 
   node [

@@ -7,9 +7,7 @@ digraph value_flow_without_mobile {
     ranksep="0.7",
     fontname="Cascadia Code, DejaVu Sans Mono, Noto Mono",
     fontsize=15,
-    fontcolor="#E6EDF3",
-    labelloc="t",
-    label=<<B>Value Flow Without schemalution</B>>
+    fontcolor="#E6EDF3"
   ];
 
   node [

@@ -7,9 +7,7 @@ digraph capabilities_outcomes_mobile {
     ranksep="0.55",
     fontname="Cascadia Code, DejaVu Sans Mono, Noto Mono",
     fontsize=15,
-    fontcolor="#E6EDF3",
-    labelloc="t",
-    label="Capabilities to Outcomes to Impact"
+    fontcolor="#E6EDF3"
   ];
 
   node [

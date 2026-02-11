@@ -6,14 +6,7 @@ digraph capabilities_outcomes {
     nodesep="0.60",
     ranksep="0.95",
     fontname="Cascadia Code, DejaVu Sans Mono, Noto Mono",
-    fontsize=15,
-    labelloc="t",
-    label=<
-      <TABLE BORDER="0" CELLBORDER="0" CELLPADDING="2" CELLSPACING="0">
-        <TR><TD><FONT POINT-SIZE="22" COLOR="#E6EDF3"><B>From Capabilities to Business Impact</B></FONT></TD></TR>
-        <TR><TD><FONT POINT-SIZE="12" COLOR="#9DA5B4">How schemalution turns platform mechanics into measurable outcomes</FONT></TD></TR>
-      </TABLE>
-    >
+    fontsize=15
   ];
 
   node [

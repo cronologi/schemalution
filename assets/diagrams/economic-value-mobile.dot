@@ -7,9 +7,7 @@ digraph economic_value_mobile {
     ranksep="0.75",
     fontname="Cascadia Code, DejaVu Sans Mono, Noto Mono",
     fontsize=15,
-    fontcolor="#E6EDF3",
-    labelloc="t",
-    label=<<B>Economic Value (Mobile)</B>>
+    fontcolor="#E6EDF3"
   ];
 
   node [
