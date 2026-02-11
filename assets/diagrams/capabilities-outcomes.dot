@@ -24,8 +24,8 @@ digraph capabilities_outcomes {
     fontsize=12,
     color="#3F3F46",
     fontcolor="#E6EDF3",
-    margin="0.16,0.12",
-    width=4.4
+    margin="0.12,0.12",
+    width=3.6
   ];
 
   edge [
@@ -46,10 +46,10 @@ digraph capabilities_outcomes {
     style="rounded,filled";
     penwidth=1.2;
 
-    C1 [fillcolor="#1F2A44", color="#5AA9FF", label="CAPABILITY\nDeterministic migrations\nPredictable schema evolution"];
-    C2 [fillcolor="#1F2A44", color="#5AA9FF", label="CAPABILITY\nSchema packs by domain\nOwnership without tight coupling"];
-    C3 [fillcolor="#1F2A44", color="#5AA9FF", label="CAPABILITY\nBoundary upcasting\nRead latest data safely"];
-    C4 [fillcolor="#1F2A44", color="#5AA9FF", label="CAPABILITY\nFragment composition\nCross-domain view assembly"];
+    C1 [fillcolor="#1F2A44", color="#5AA9FF", label="Deterministic migrations\nPredictable schema evolution"];
+    C2 [fillcolor="#1F2A44", color="#5AA9FF", label="Schema packs by domain\nOwnership without tight coupling"];
+    C3 [fillcolor="#1F2A44", color="#5AA9FF", label="Boundary upcasting\nRead latest data safely"];
+    C4 [fillcolor="#1F2A44", color="#5AA9FF", label="Fragment composition\nCross-domain view assembly"];
   }
 
   subgraph cluster_outcomes {
@@ -64,10 +64,10 @@ digraph capabilities_outcomes {
     style="rounded,filled";
     penwidth=1.2;
 
-    O1 [fillcolor="#1C3B36", color="#4EC9B0", label="OUTCOME\nAudit readiness\nTraceable schema lineage"];
-    O2 [fillcolor="#1C3B36", color="#4EC9B0", label="OUTCOME\nTeam autonomy\nIndependent delivery velocity"];
-    O3 [fillcolor="#1C3B36", color="#4EC9B0", label="OUTCOME\nFaster releases\nLess migration friction"];
-    O4 [fillcolor="#1C3B36", color="#4EC9B0", label="OUTCOME\nUnified 360 views\nAligned product analytics"];
+    O1 [fillcolor="#1C3B36", color="#4EC9B0", label="Audit readiness\nTraceable schema lineage"];
+    O2 [fillcolor="#1C3B36", color="#4EC9B0", label="Team autonomy\nIndependent delivery velocity"];
+    O3 [fillcolor="#1C3B36", color="#4EC9B0", label="Faster releases\nLess migration friction"];
+    O4 [fillcolor="#1C3B36", color="#4EC9B0", label="Unified 360 views\nAligned product analytics"];
   }
 
   subgraph cluster_impact {
@@ -82,10 +82,10 @@ digraph capabilities_outcomes {
     style="rounded,filled";
     penwidth=1.2;
 
-    I1 [fillcolor="#3D3220", color="#D7BA7D", label="IMPACT\n15-30% lower audit cost\nReduced compliance overhead"];
-    I2 [fillcolor="#3D3220", color="#D7BA7D", label="IMPACT\n20-40% fewer coordination hours\nLean cross-team planning"];
-    I3 [fillcolor="#3D3220", color="#D7BA7D", label="IMPACT\n25-50% shorter cycle time\nHigher release throughput"];
-    I4 [fillcolor="#3D3220", color="#D7BA7D", label="IMPACT\n20-40% less integration effort\nLower data stitching costs"];
+    I1 [fillcolor="#3D3220", color="#D7BA7D", label="15-30% lower audit cost\nReduced compliance overhead"];
+    I2 [fillcolor="#3D3220", color="#D7BA7D", label="20-40% fewer coordination hours\nLean cross-team planning"];
+    I3 [fillcolor="#3D3220", color="#D7BA7D", label="25-50% shorter cycle time\nHigher release throughput"];
+    I4 [fillcolor="#3D3220", color="#D7BA7D", label="20-40% less integration effort\nLower data stitching costs"];
   }
 
   C1 -> O1;

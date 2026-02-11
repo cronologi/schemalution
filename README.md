@@ -28,43 +28,45 @@ Then:
 Use this as a baseline; many teams could see additional upside from avoided delays, incident risk, and reduced cross-team coordination.
 
 ## What It Enables
-- Faster releases without waiting on migration windows.
-- Stable analytics and AI even as schemas evolve.
-- Team autonomy through per-domain schema packs.
-- Auditability via deterministic, testable evolution paths.
-- Business logic that only sees the latest schema shape.
+| Enablement Area | Practical Result |
+| --- | --- |
+| Delivery speed | Faster releases without waiting on migration windows |
+| Data and AI stability | Stable analytics and AI even as schemas evolve |
+| Team operating model | Team autonomy through per-domain schema packs |
+| Governance and compliance | Auditability via deterministic, testable evolution paths |
+| Runtime simplicity | Business logic that only sees the latest schema shape |
 
 ## Value Flow
-<picture>
-  <source media="(max-width: 768px)" srcset="assets/diagrams/value-flow-without-mobile.svg">
-  <img src="assets/diagrams/value-flow-without.svg" alt="Value flow without schemalution">
-</picture>
-
-<picture>
-  <source media="(max-width: 768px)" srcset="assets/diagrams/value-flow-with-mobile.svg">
-  <img src="assets/diagrams/value-flow-with.svg" alt="Value flow with schemalution">
-</picture>
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <picture>
+        <source media="(max-width: 1100px)" srcset="assets/diagrams/value-flow-without-mobile.svg">
+        <img src="assets/diagrams/value-flow-without.svg" alt="Value flow without schemalution" width="100%">
+      </picture>
+    </td>
+    <td width="50%" valign="top">
+      <picture>
+        <source media="(max-width: 1100px)" srcset="assets/diagrams/value-flow-with-mobile.svg">
+        <img src="assets/diagrams/value-flow-with.svg" alt="Value flow with schemalution" width="100%">
+      </picture>
+    </td>
+  </tr>
+</table>
 
 ## Core Capabilities
-- Deterministic migrations (pure functions) → auditability and repeatable evolution.
-- Schema packs per domain → team autonomy and reuse across services.
-- Upcast-to-latest at boundaries → business logic only sees the latest schema.
-- Optional adapters (MongoDB, Spark) → stable projections and analytics.
-- Fragment composition (`schemalution-compose`) → multi-domain 360 views.
+| Capability | Why It Matters |
+| --- | --- |
+| Deterministic migrations (pure functions) | Enables auditability and repeatable evolution |
+| Schema packs per domain | Supports team autonomy and reuse across services |
+| Upcast-to-latest at boundaries | Keeps business logic on a single latest schema shape |
+| Optional adapters (MongoDB, Spark) | Stabilizes projections and analytics workflows |
+| Fragment composition (`schemalution-compose`) | Enables multi-domain 360 views |
 
 <picture>
   <source media="(max-width: 768px)" srcset="assets/diagrams/capabilities-outcomes-mobile.svg">
   <img src="assets/diagrams/capabilities-outcomes.svg" alt="Capabilities to outcomes map">
 </picture>
-
-## Diagram Rendering
-The diagrams used in this README are rendered from Graphviz sources in `assets/diagrams/*.dot`.
-
-```bash
-scripts/render-graphviz.sh
-# or
-make diagrams
-```
 
 ## Quick Start (Minimal)
 The core workflow is always the same.

@@ -18,28 +18,28 @@ digraph capabilities_outcomes_mobile {
     fontname="Cascadia Code, DejaVu Sans Mono, Noto Mono",
     fontcolor="#E6EDF3",
     fontsize=15,
-    margin="0.16,0.12",
-    width=4.4,
+    margin="0.12,0.12",
+    width=3.6,
     penwidth=1.6
   ];
 
   edge [color="#4FC1FF", penwidth=2, arrowsize=0.7];
 
-  C1 [fillcolor="#1F2A44", color="#5AA9FF", label="CAPABILITY\nDeterministic migrations"];
-  O1 [fillcolor="#1C3B36", color="#4EC9B0", label="OUTCOME\nAudit readiness"];
-  I1 [fillcolor="#3D3220", color="#D7BA7D", label="IMPACT\n15-30% lower audit cost"];
+  C1 [fillcolor="#1F2A44", color="#5AA9FF", label="Deterministic migrations"];
+  O1 [fillcolor="#1C3B36", color="#4EC9B0", label="Audit readiness"];
+  I1 [fillcolor="#3D3220", color="#D7BA7D", label="15-30% lower audit cost"];
 
-  C2 [fillcolor="#1F2A44", color="#5AA9FF", label="CAPABILITY\nSchema packs by domain"];
-  O2 [fillcolor="#1C3B36", color="#4EC9B0", label="OUTCOME\nTeam autonomy"];
-  I2 [fillcolor="#3D3220", color="#D7BA7D", label="IMPACT\n20-40% fewer coordination hours"];
+  C2 [fillcolor="#1F2A44", color="#5AA9FF", label="Schema packs by domain"];
+  O2 [fillcolor="#1C3B36", color="#4EC9B0", label="Team autonomy"];
+  I2 [fillcolor="#3D3220", color="#D7BA7D", label="20-40% fewer coordination hours"];
 
-  C3 [fillcolor="#1F2A44", color="#5AA9FF", label="CAPABILITY\nBoundary upcasting"];
-  O3 [fillcolor="#1C3B36", color="#4EC9B0", label="OUTCOME\nFaster releases"];
-  I3 [fillcolor="#3D3220", color="#D7BA7D", label="IMPACT\n25-50% shorter cycle time"];
+  C3 [fillcolor="#1F2A44", color="#5AA9FF", label="Boundary upcasting"];
+  O3 [fillcolor="#1C3B36", color="#4EC9B0", label="Faster releases"];
+  I3 [fillcolor="#3D3220", color="#D7BA7D", label="25-50% shorter cycle time"];
 
-  C4 [fillcolor="#1F2A44", color="#5AA9FF", label="CAPABILITY\nFragment composition"];
-  O4 [fillcolor="#1C3B36", color="#4EC9B0", label="OUTCOME\nUnified 360 views"];
-  I4 [fillcolor="#3D3220", color="#D7BA7D", label="IMPACT\n20-40% less integration effort"];
+  C4 [fillcolor="#1F2A44", color="#5AA9FF", label="Fragment composition"];
+  O4 [fillcolor="#1C3B36", color="#4EC9B0", label="Unified 360 views"];
+  I4 [fillcolor="#3D3220", color="#D7BA7D", label="20-40% less integration effort"];
 
   C1 -> O1;
   O1 -> I1 [style=dashed, color="#8AA0B6"];

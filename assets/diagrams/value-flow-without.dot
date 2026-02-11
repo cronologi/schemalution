@@ -1,10 +1,10 @@
 digraph value_flow_without {
   graph [
-    rankdir=LR,
+    rankdir=TB,
     bgcolor="#1E1E1E",
-    pad="0.40",
-    nodesep="0.58",
-    ranksep="0.95",
+    pad="0.34",
+    nodesep="0.45",
+    ranksep="0.62",
     fontname="Cascadia Code, DejaVu Sans Mono, Noto Mono",
     fontsize=15,
     labelloc="t",
@@ -21,9 +21,9 @@ digraph value_flow_without {
     style="rounded,filled",
     penwidth=1.8,
     fontname="Cascadia Code, DejaVu Sans Mono, Noto Mono",
-    fontsize=12,
+    fontsize=13,
     fontcolor="#E6EDF3",
-    margin="0.14,0.10"
+    margin="0.12,0.10"
   ];
 
   edge [
