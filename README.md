@@ -142,7 +142,11 @@ root = compose_root(
 ## Use Cases and Challenges
 | Typical Use Cases / Scenarios | Challenges It Solves |
 | --- | --- |
-| Embedded schema-on-read inside services for always-latest business logic<br>Canonical projection to materialize latest datasets for analytics and ML<br>Multi-domain composition for customer-360 style views and agents<br>Schema gateway for centralized enforcement of latest schemas<br>Write-latest + backfill where writers enforce latest and storage converges | Coordination bottlenecks for schema changes across teams<br>Long-running backfills and tightly coupled deployments<br>Version-branching logic duplicated across consumers<br>Schema drift in pipelines and analytics<br>Inconsistent interpretation of historical data |
+| Embedded schema-on-read inside services for always-latest business logic | Coordination bottlenecks for schema changes across teams |
+| Canonical projection to materialize latest datasets for analytics and ML | Long-running backfills and tightly coupled deployments |
+| Multi-domain composition for customer-360 style views and agents | Version-branching logic duplicated across consumers |
+| Schema gateway for centralized enforcement of latest schemas | Schema drift in pipelines and analytics |
+| Write-latest + backfill where writers enforce latest and storage converges | Inconsistent interpretation of historical data |
 
 ## CLI (JSON I/O)
 The `schemalution` CLI exposes registry export, upcast, and validate as deterministic JSON I/O.
