@@ -1,0 +1,97 @@
+digraph value_flow_without {
+  graph [
+    rankdir=LR,
+    bgcolor="#1E1E1E",
+    pad="0.40",
+    nodesep="0.58",
+    ranksep="0.95",
+    fontname="Cascadia Code, DejaVu Sans Mono, Noto Mono",
+    fontsize=15,
+    labelloc="t",
+    label=<
+      <TABLE BORDER="0" CELLBORDER="0" CELLPADDING="2" CELLSPACING="0">
+        <TR><TD ALIGN="CENTER"><FONT POINT-SIZE="22" COLOR="#E6EDF3"><B>Value Flow Without schemalution</B></FONT></TD></TR>
+        <TR><TD ALIGN="CENTER"><FONT POINT-SIZE="12" COLOR="#9DA5B4">Manual migration work compounds risk and delivery cost</FONT></TD></TR>
+      </TABLE>
+    >
+  ];
+
+  node [
+    shape=box,
+    style="rounded,filled",
+    penwidth=1.8,
+    fontname="Cascadia Code, DejaVu Sans Mono, Noto Mono",
+    fontsize=12,
+    fontcolor="#E6EDF3",
+    margin="0.14,0.10"
+  ];
+
+  edge [
+    color="#4FC1FF",
+    penwidth=2,
+    arrowsize=0.7
+  ];
+
+  subgraph cluster_without {
+    label="Without schemalution";
+    labelloc=t;
+    labeljust=c;
+    fontsize=12;
+    fontname="Cascadia Code, DejaVu Sans Mono, Noto Mono";
+    fontcolor="#D4D4D4";
+    color="#3F3F46";
+    fillcolor="#252526";
+    style="rounded,filled";
+    penwidth=1.2;
+
+    W1 [
+      label=<
+        <TABLE BORDER="0" CELLBORDER="0" CELLPADDING="0" CELLSPACING="0">
+          <TR><TD ALIGN="CENTER"><FONT POINT-SIZE="10" COLOR="#F48771"><B>TRIGGER</B></FONT></TD></TR>
+          <TR><TD ALIGN="CENTER"><FONT POINT-SIZE="15" COLOR="#E6EDF3"><B>Schema change</B></FONT></TD></TR>
+        </TABLE>
+      >,
+      fillcolor="#3B2529",
+      color="#F48771",
+      fontcolor="#E6EDF3"
+    ];
+
+    W2 [
+      label="Manual coordination\n+ migration scripts",
+      fillcolor="#3A2D21",
+      color="#D19A66",
+      fontcolor="#E5C07B"
+    ];
+
+    W3 [
+      label="Backfills\n+ long-running jobs",
+      fillcolor="#3A2D21",
+      color="#D19A66",
+      fontcolor="#E5C07B"
+    ];
+
+    W4 [
+      label="Consumer fixes\n+ version branching",
+      fillcolor="#3A2D21",
+      color="#D19A66",
+      fontcolor="#E5C07B"
+    ];
+
+    W5 [
+      label=<
+        <TABLE BORDER="0" CELLBORDER="0" CELLPADDING="0" CELLSPACING="0">
+          <TR><TD ALIGN="CENTER"><FONT POINT-SIZE="10" COLOR="#F48771"><B>RISK</B></FONT></TD></TR>
+          <TR><TD ALIGN="CENTER"><FONT POINT-SIZE="15" COLOR="#E6EDF3"><B>Downtime and drifted analytics</B></FONT></TD></TR>
+        </TABLE>
+      >,
+      fillcolor="#3B2529",
+      color="#F48771",
+      fontcolor="#E6EDF3"
+    ];
+  }
+
+  W1 -> W2;
+  W2 -> W3;
+  W3 -> W4;
+  W4 -> W5;
+}

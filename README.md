@@ -20,27 +20,7 @@ Then:
 - Annual hours saved = `6 * 12 * 23 = 1,656h`
 - Annual cost saved = `1,656h * $120/hr = $198,720`
 
-```mermaid
-%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#E6F4FF', 'primaryTextColor': '#0F172A', 'primaryBorderColor': '#1D4ED8', 'lineColor': '#2563EB', 'secondaryColor': '#F1F5F9', 'tertiaryColor': '#E2E8F0', 'edgeLabelBackground': '#F8FAFC', 'fontFamily': 'Inter, system-ui, sans-serif', 'fontSize': '14px'}}}%%
-flowchart LR
-  A([Changes per month: </br>6]) --> G([Annual hours saved: </br>1,656h])
-  B([Coordination: </br>3h]) --> G
-  C([Migration: </br>6h]) --> G
-  D([Downstream fixes: </br>12h]) --> G
-  E([Incidents: </br>2h]) --> G
-  G --> H([Annual cost saved: </br>$198,720])
-  F([Blended cost/hr: </br>$120]) --> H
-
-  classDef input fill:#DBEAFE,stroke:#1D4ED8,stroke-width:2px,color:#0F172A;
-  classDef calc fill:#ECFEFF,stroke:#06B6D4,stroke-width:2px,color:#0F172A;
-  classDef outcome fill:#DCFCE7,stroke:#16A34A,stroke-width:2px,color:#0F172A;
-
-  class A,B,C,D,E,F input;
-  class G calc;
-  class H outcome;
-
-  linkStyle default stroke-width:2px;
-```
+![Economic value model](assets/diagrams/economic-value.svg)
 
 Use this as a baseline; many teams could see additional upside from avoided delays, incident risk, and reduced cross-team coordination.
 
@@ -52,63 +32,9 @@ Use this as a baseline; many teams could see additional upside from avoided dela
 - Business logic that only sees the latest schema shape.
 
 ## Value Flow
-```mermaid
-%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#E6F4FF', 'primaryTextColor': '#0F172A', 'primaryBorderColor': '#1D4ED8', 'lineColor': '#2563EB', 'secondaryColor': '#F1F5F9', 'tertiaryColor': '#E2E8F0', 'edgeLabelBackground': '#F8FAFC', 'fontFamily': 'Inter, system-ui, sans-serif', 'fontSize': '14px'}}}%%
-flowchart 
-  subgraph LR W["Without schemalution"]
-    W1([Schema change]) --> W2([Manual coordination </br> + migration scripts])
-    W2 --> W3([Backfills </br> + long-running jobs])
-    W3 --> W4([Consumer fixes </br> + version branching])
-    W4 --> W5([Downtime risk </br> + drifted analytics])
-  end
+![Value flow without schemalution](assets/diagrams/value-flow-without.svg)
 
-  classDef pain fill:#FEE2E2,stroke:#EF4444,stroke-width:2px,color:#991B1B;
-  classDef effort fill:#FFEDD5,stroke:#F97316,stroke-width:2px,color:#9A3412;
-  classDef input fill:#DBEAFE,stroke:#1D4ED8,stroke-width:2px,color:#0F172A;
-  classDef engine fill:#E0E7FF,stroke:#4338CA,stroke-width:2px,color:#0F172A;
-  classDef output fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px,color:#0F172A;
-  classDef outcome fill:#DCFCE7,stroke:#16A34A,stroke-width:2px,color:#0F172A;
-
-  class W1 pain;
-  class W2,W3,W4 effort;
-  class W5 pain;
-  class S1 input;
-  class S2,S3,S4 engine;
-  class S5 output;
-  class S6 outcome;
-
-  linkStyle default stroke-width:2px;
-```
-
-```mermaid
-%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#E6F4FF', 'primaryTextColor': '#0F172A', 'primaryBorderColor': '#1D4ED8', 'lineColor': '#2563EB', 'secondaryColor': '#F1F5F9', 'tertiaryColor': '#E2E8F0', 'edgeLabelBackground': '#F8FAFC', 'fontFamily': 'Inter, system-ui, sans-serif', 'fontSize': '14px'}}}%%
-flowchart 
-  
-  subgraph LR S["With schemalution"]
-    S1([Schema change </br> + versioned records]) --> S2([Schema packs </br> + deterministic migrations])
-    S2 --> S3([schemalution core </br> + adapters])
-    S3 --> S4([Upcast to latest </br> at boundaries])
-    S4 --> S5([Latest datasets </br> + composed views])
-    S5 --> S6([Faster releases </br> + stable analytics])
-  end
-
-  classDef pain fill:#FEE2E2,stroke:#EF4444,stroke-width:2px,color:#991B1B;
-  classDef effort fill:#FFEDD5,stroke:#F97316,stroke-width:2px,color:#9A3412;
-  classDef input fill:#DBEAFE,stroke:#1D4ED8,stroke-width:2px,color:#0F172A;
-  classDef engine fill:#E0E7FF,stroke:#4338CA,stroke-width:2px,color:#0F172A;
-  classDef output fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px,color:#0F172A;
-  classDef outcome fill:#DCFCE7,stroke:#16A34A,stroke-width:2px,color:#0F172A;
-
-  class W1 pain;
-  class W2,W3,W4 effort;
-  class W5 pain;
-  class S1 input;
-  class S2,S3,S4 engine;
-  class S5 output;
-  class S6 outcome;
-
-  linkStyle default stroke-width:2px;
-```
+![Value flow with schemalution](assets/diagrams/value-flow-with.svg)
 
 ## Core Capabilities → Outcomes
 - Deterministic migrations (pure functions) → auditability and repeatable evolution.
@@ -118,27 +44,15 @@ flowchart
 - Fragment composition (`schemalution-compose`) → multi-domain 360 views.
 
 ## Capabilities → Outcomes Map
-```mermaid
-%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#E6F4FF', 'primaryTextColor': '#0F172A', 'primaryBorderColor': '#1D4ED8', 'lineColor': '#2563EB', 'secondaryColor': '#F1F5F9', 'tertiaryColor': '#E2E8F0', 'edgeLabelBackground': '#F8FAFC', 'fontFamily': 'Inter, system-ui, sans-serif', 'fontSize': '14px'}}}%%
-graph LR
-  C1([Deterministic migrations]) --> O1([Auditability])
-  C2([Schema packs per domain]) --> O2([Team autonomy])
-  C3([Upcast-to-latest at boundaries]) --> O3([Faster releases])
-  C4([Fragment composition]) --> O4([Multi-domain 360 views])
-  O1 -.-> I1([15–30% </br> lower compliance & audit cost])
-  O2 -.-> I2([20–40% </br> fewer coordination hours])
-  O3 -.-> I3([25–50% </br> shorter delivery cycle time])
-  O4 -.-> I4([20–40% </br> less cross-domain </br> integration effort])
+![Capabilities to outcomes map](assets/diagrams/capabilities-outcomes.svg)
 
-  classDef cap fill:#DBEAFE,stroke:#1D4ED8,stroke-width:2px,color:#0F172A;
-  classDef out fill:#DCFCE7,stroke:#16A34A,stroke-width:2px,color:#0F172A;
-  classDef impact fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px,color:#0F172A;
+## Diagram Rendering
+The diagrams used in this README are rendered from Graphviz sources in `assets/diagrams/*.dot`.
 
-  class C1,C2,C3,C4 cap;
-  class O1,O2,O3,O4 out;
-  class I1,I2,I3,I4 impact;
-
-  linkStyle default stroke-width:2px;
+```bash
+scripts/render-graphviz.sh
+# or
+make diagrams
 ```
 
 ## Quick Start (Minimal)

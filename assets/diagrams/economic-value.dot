@@ -1,0 +1,88 @@
+digraph economic_value {
+  graph [
+    rankdir=LR,
+    bgcolor="#1E1E1E",
+    pad="0.40",
+    nodesep="0.55",
+    ranksep="0.9",
+    fontname="Cascadia Code, DejaVu Sans Mono, Noto Mono",
+    fontsize=15,
+    labelloc="t",
+    label=<
+      <TABLE BORDER="0" CELLBORDER="0" CELLPADDING="2" CELLSPACING="0">
+        <TR><TD ALIGN="CENTER"><FONT POINT-SIZE="22" COLOR="#E6EDF3"><B>Economic Value Model</B></FONT></TD></TR>
+        <TR><TD ALIGN="CENTER"><FONT POINT-SIZE="12" COLOR="#9DA5B4">Inputs to annual engineering time and cost savings</FONT></TD></TR>
+      </TABLE>
+    >
+  ];
+
+  node [
+    shape=box,
+    style="rounded,filled",
+    penwidth=2,
+    fontname="Cascadia Code, DejaVu Sans Mono, Noto Mono",
+    fontsize=13,
+    fontcolor="#E6EDF3",
+    margin="0.16,0.12"
+  ];
+
+  edge [
+    color="#4FC1FF",
+    penwidth=2,
+    arrowsize=0.7
+  ];
+
+  subgraph cluster_inputs {
+    label="INPUTS";
+    labelloc=t;
+    labeljust=c;
+    fontsize=12;
+    fontname="Cascadia Code, DejaVu Sans Mono, Noto Mono";
+    fontcolor="#9CDCFE";
+    color="#3F3F46";
+    fillcolor="#252526";
+    style="rounded,filled";
+    penwidth=1.2;
+
+    A [label="Changes per month: 6", fillcolor="#26364F", color="#5AA9FF", fontcolor="#E6EDF3"];
+    B [label="Coordination: 3h", fillcolor="#26364F", color="#5AA9FF", fontcolor="#E6EDF3"];
+    C [label="Migration: 6h", fillcolor="#26364F", color="#5AA9FF", fontcolor="#E6EDF3"];
+    D [label="Downstream fixes: 12h", fillcolor="#26364F", color="#5AA9FF", fontcolor="#E6EDF3"];
+    E [label="Incidents: 2h", fillcolor="#26364F", color="#5AA9FF", fontcolor="#E6EDF3"];
+    F [label="Blended cost/hr: $120", fillcolor="#26364F", color="#5AA9FF", fontcolor="#E6EDF3"];
+  }
+
+  G [
+    label=<
+      <TABLE BORDER="0" CELLBORDER="0" CELLPADDING="0" CELLSPACING="0">
+        <TR><TD ALIGN="CENTER"><FONT POINT-SIZE="10" COLOR="#4FC1FF"><B>CALCULATION</B></FONT></TD></TR>
+        <TR><TD ALIGN="CENTER"><FONT POINT-SIZE="15" COLOR="#E6EDF3"><B>Annual hours saved</B></FONT></TD></TR>
+        <TR><TD ALIGN="CENTER"><FONT POINT-SIZE="12" COLOR="#B5E8FF">1,656h</FONT></TD></TR>
+      </TABLE>
+    >,
+    fillcolor="#14323D",
+    color="#4FC1FF",
+    fontcolor="#E6EDF3"
+  ];
+
+  H [
+    label=<
+      <TABLE BORDER="0" CELLBORDER="0" CELLPADDING="0" CELLSPACING="0">
+        <TR><TD ALIGN="CENTER"><FONT POINT-SIZE="10" COLOR="#4EC9B0"><B>OUTCOME</B></FONT></TD></TR>
+        <TR><TD ALIGN="CENTER"><FONT POINT-SIZE="15" COLOR="#E6EDF3"><B>Annual cost saved</B></FONT></TD></TR>
+        <TR><TD ALIGN="CENTER"><FONT POINT-SIZE="12" COLOR="#9FE8D9">$198,720</FONT></TD></TR>
+      </TABLE>
+    >,
+    fillcolor="#1C3B36",
+    color="#4EC9B0",
+    fontcolor="#E6EDF3"
+  ];
+
+  A -> G;
+  B -> G;
+  C -> G;
+  D -> G;
+  E -> G;
+  G -> H;
+  F -> H;
+}

@@ -6,7 +6,7 @@ PYTHON := $(shell command -v python3 || command -v python)
 UV ?= uv
 UV_EXTRAS ?= dev
 
-.PHONY: help check-uv setup venv lock sync lint format format-check typecheck test ci build list-packages clean
+.PHONY: help check-uv setup venv lock sync lint format format-check typecheck test ci build diagrams list-packages clean
 
 help:
 	@printf "Targets:\n"
@@ -22,6 +22,7 @@ help:
 	@printf "  test           Run pytest\n"
 	@printf "  ci             Lint + format-check + typecheck + test\n"
 	@printf "  build          Build all packages (or PKG=...)\n"
+	@printf "  diagrams       Render Graphviz diagrams to SVG\n"
 	@printf "  list-packages  List package directories\n"
 	@printf "  clean          Remove local caches and build artifacts\n"
 
@@ -76,6 +77,9 @@ build: setup
 	else \
 		$(UV) build --all-packages; \
 	fi
+
+diagrams:
+	./scripts/render-graphviz.sh
 
 list-packages:
 	@$(PYTHON) -c "from pathlib import Path; print('\n'.join(str(p) for p in sorted(Path('packages').glob('*')) if p.is_dir()))"

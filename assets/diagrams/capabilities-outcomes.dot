@@ -1,0 +1,100 @@
+digraph capabilities_outcomes {
+  graph [
+    rankdir=LR,
+    bgcolor="#1E1E1E",
+    pad="0.50",
+    nodesep="0.60",
+    ranksep="0.95",
+    fontname="Cascadia Code, DejaVu Sans Mono, Noto Mono",
+    fontsize=15,
+    labelloc="t",
+    label=<
+      <TABLE BORDER="0" CELLBORDER="0" CELLPADDING="2" CELLSPACING="0">
+        <TR><TD><FONT POINT-SIZE="22" COLOR="#E6EDF3"><B>From Capabilities to Business Impact</B></FONT></TD></TR>
+        <TR><TD><FONT POINT-SIZE="12" COLOR="#9DA5B4">How schemalution turns platform mechanics into measurable outcomes</FONT></TD></TR>
+      </TABLE>
+    >
+  ];
+
+  node [
+    shape=box,
+    style="rounded,filled",
+    penwidth=1.6,
+    fontname="Cascadia Code, DejaVu Sans Mono, Noto Mono",
+    fontsize=12,
+    color="#3F3F46",
+    fontcolor="#E6EDF3",
+    margin="0.16,0.12",
+    width=4.4
+  ];
+
+  edge [
+    color="#4FC1FF",
+    penwidth=2,
+    arrowsize=0.7
+  ];
+
+  subgraph cluster_capabilities {
+    label="CAPABILITIES";
+    labelloc=t;
+    labeljust=c;
+    fontsize=12;
+    fontname="Cascadia Code, DejaVu Sans Mono, Noto Mono";
+    fontcolor="#9CDCFE";
+    color="#3F3F46";
+    fillcolor="#252526";
+    style="rounded,filled";
+    penwidth=1.2;
+
+    C1 [fillcolor="#1F2A44", color="#5AA9FF", label="CAPABILITY\nDeterministic migrations\nPredictable schema evolution"];
+    C2 [fillcolor="#1F2A44", color="#5AA9FF", label="CAPABILITY\nSchema packs by domain\nOwnership without tight coupling"];
+    C3 [fillcolor="#1F2A44", color="#5AA9FF", label="CAPABILITY\nBoundary upcasting\nRead latest data safely"];
+    C4 [fillcolor="#1F2A44", color="#5AA9FF", label="CAPABILITY\nFragment composition\nCross-domain view assembly"];
+  }
+
+  subgraph cluster_outcomes {
+    label="PRODUCT OUTCOMES";
+    labelloc=t;
+    labeljust=c;
+    fontsize=12;
+    fontname="Cascadia Code, DejaVu Sans Mono, Noto Mono";
+    fontcolor="#4EC9B0";
+    color="#3F3F46";
+    fillcolor="#252526";
+    style="rounded,filled";
+    penwidth=1.2;
+
+    O1 [fillcolor="#1C3B36", color="#4EC9B0", label="OUTCOME\nAudit readiness\nTraceable schema lineage"];
+    O2 [fillcolor="#1C3B36", color="#4EC9B0", label="OUTCOME\nTeam autonomy\nIndependent delivery velocity"];
+    O3 [fillcolor="#1C3B36", color="#4EC9B0", label="OUTCOME\nFaster releases\nLess migration friction"];
+    O4 [fillcolor="#1C3B36", color="#4EC9B0", label="OUTCOME\nUnified 360 views\nAligned product analytics"];
+  }
+
+  subgraph cluster_impact {
+    label="BUSINESS IMPACT";
+    labelloc=t;
+    labeljust=c;
+    fontsize=12;
+    fontname="Cascadia Code, DejaVu Sans Mono, Noto Mono";
+    fontcolor="#D7BA7D";
+    color="#3F3F46";
+    fillcolor="#252526";
+    style="rounded,filled";
+    penwidth=1.2;
+
+    I1 [fillcolor="#3D3220", color="#D7BA7D", label="IMPACT\n15-30% lower audit cost\nReduced compliance overhead"];
+    I2 [fillcolor="#3D3220", color="#D7BA7D", label="IMPACT\n20-40% fewer coordination hours\nLean cross-team planning"];
+    I3 [fillcolor="#3D3220", color="#D7BA7D", label="IMPACT\n25-50% shorter cycle time\nHigher release throughput"];
+    I4 [fillcolor="#3D3220", color="#D7BA7D", label="IMPACT\n20-40% less integration effort\nLower data stitching costs"];
+  }
+
+  C1 -> O1;
+  C2 -> O2;
+  C3 -> O3;
+  C4 -> O4;
+
+  O1 -> I1 [style=dashed, color="#8AA0B6", penwidth=2];
+  O2 -> I2 [style=dashed, color="#8AA0B6", penwidth=2];
+  O3 -> I3 [style=dashed, color="#8AA0B6", penwidth=2];
+  O4 -> I4 [style=dashed, color="#8AA0B6", penwidth=2];
+}
