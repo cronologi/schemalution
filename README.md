@@ -181,23 +181,7 @@ You can also provide packs via `SCHEMALUTION_PACKS` (comma-separated module name
 `validate` currently checks that a record can be deterministically upcast to latest; it does not enforce domain contracts yet.  
 Output schema (v1): `docs/cli/format-v1.schema.json`.
 
-## Repo Layout
-```json
-packages/
-  schemalution-cli/
-  schemalution-core/
-  schemalution-pack/
-  schemalution-mongo/
-  schemalution-spark/
-  schemalution-compose/
-  schemalution-pack-example-crm/
-```
-
-## Future
-Automation-friendly tooling is on the roadmap (e.g., helpers to validate packs and run migrations in batches, MCP server, AI-assistet migration creation and diff resolution), but the core stays small and explicit.
-
 ## Docs, Contributing, License
-
 
 ### Docs
 
