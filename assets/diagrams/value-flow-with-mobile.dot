@@ -1,0 +1,39 @@
+digraph value_flow_with_mobile {
+  graph [
+    rankdir=TB,
+    bgcolor="#1E1E1E",
+    pad="0.35",
+    nodesep="0.5",
+    ranksep="0.7",
+    fontname="Cascadia Code, DejaVu Sans Mono, Noto Mono",
+    fontsize=15,
+    fontcolor="#E6EDF3",
+    labelloc="t",
+    label=<<B>Value Flow With schemalution</B>>
+  ];
+
+  node [
+    shape=box,
+    style="rounded,filled",
+    penwidth=1.8,
+    fontname="Cascadia Code, DejaVu Sans Mono, Noto Mono",
+    fontsize=13,
+    fontcolor="#E6EDF3",
+    margin="0.14,0.10"
+  ];
+
+  edge [color="#4FC1FF", penwidth=2, arrowsize=0.7];
+
+  S1 [label="01 INPUT\nSchema change\nVersioned records", fillcolor="#26364F", color="#5AA9FF"];
+  S2 [label="02 TRANSFORM\nSchema packs\nDeterministic migrations", fillcolor="#2B3052", color="#9D8CFF"];
+  S3 [label="03 EXECUTE\nCore and adapters\nValidation + compatibility", fillcolor="#2B3052", color="#9D8CFF"];
+  S4 [label="04 SERVE\nBoundary upcasting\nLatest reads", fillcolor="#2B3052", color="#9D8CFF"];
+  S5 [label="05 OUTPUT\nComposed datasets\nUnified latest views", fillcolor="#3D3220", color="#D7BA7D"];
+  S6 [label="06 OUTCOME\nBusiness outcomes\nFaster releases + stable analytics", fillcolor="#1C3B36", color="#4EC9B0"];
+
+  S1 -> S2;
+  S2 -> S3;
+  S3 -> S4;
+  S4 -> S5;
+  S5 -> S6;
+}

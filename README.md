@@ -20,7 +20,10 @@ Then:
 - Annual hours saved = `6 * 12 * 23 = 1,656h`
 - Annual cost saved = `1,656h * $120/hr = $198,720`
 
-![Economic value model](assets/diagrams/economic-value.svg)
+<picture>
+  <source media="(max-width: 768px)" srcset="assets/diagrams/economic-value-mobile.svg">
+  <img src="assets/diagrams/economic-value.svg" alt="Economic value model">
+</picture>
 
 Use this as a baseline; many teams could see additional upside from avoided delays, incident risk, and reduced cross-team coordination.
 
@@ -32,9 +35,15 @@ Use this as a baseline; many teams could see additional upside from avoided dela
 - Business logic that only sees the latest schema shape.
 
 ## Value Flow
-![Value flow without schemalution](assets/diagrams/value-flow-without.svg)
+<picture>
+  <source media="(max-width: 768px)" srcset="assets/diagrams/value-flow-without-mobile.svg">
+  <img src="assets/diagrams/value-flow-without.svg" alt="Value flow without schemalution">
+</picture>
 
-![Value flow with schemalution](assets/diagrams/value-flow-with.svg)
+<picture>
+  <source media="(max-width: 768px)" srcset="assets/diagrams/value-flow-with-mobile.svg">
+  <img src="assets/diagrams/value-flow-with.svg" alt="Value flow with schemalution">
+</picture>
 
 ## Core Capabilities
 - Deterministic migrations (pure functions) → auditability and repeatable evolution.
@@ -43,7 +52,10 @@ Use this as a baseline; many teams could see additional upside from avoided dela
 - Optional adapters (MongoDB, Spark) → stable projections and analytics.
 - Fragment composition (`schemalution-compose`) → multi-domain 360 views.
 
-![Capabilities to outcomes map](assets/diagrams/capabilities-outcomes.svg)
+<picture>
+  <source media="(max-width: 768px)" srcset="assets/diagrams/capabilities-outcomes-mobile.svg">
+  <img src="assets/diagrams/capabilities-outcomes.svg" alt="Capabilities to outcomes map">
+</picture>
 
 ## Diagram Rendering
 The diagrams used in this README are rendered from Graphviz sources in `assets/diagrams/*.dot`.

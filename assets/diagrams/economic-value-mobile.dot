@@ -1,0 +1,34 @@
+digraph economic_value_mobile {
+  graph [
+    rankdir=TB,
+    bgcolor="#1E1E1E",
+    pad="0.35",
+    nodesep="0.5",
+    ranksep="0.75",
+    fontname="Cascadia Code, DejaVu Sans Mono, Noto Mono",
+    fontsize=15,
+    fontcolor="#E6EDF3",
+    labelloc="t",
+    label=<<B>Economic Value (Mobile)</B>>
+  ];
+
+  node [
+    shape=box,
+    style="rounded,filled",
+    penwidth=1.8,
+    fontname="Cascadia Code, DejaVu Sans Mono, Noto Mono",
+    fontsize=13,
+    fontcolor="#E6EDF3",
+    margin="0.16,0.12",
+    width=4.5
+  ];
+
+  edge [color="#4FC1FF", penwidth=2, arrowsize=0.7];
+
+  A [label="INPUTS\n6 changes/month\n23h saved/change\n$120 blended cost/hr", fillcolor="#26364F", color="#5AA9FF"];
+  G [label="CALCULATION\nAnnual hours saved\n6 * 12 * 23 = 1,656h", fillcolor="#14323D", color="#4FC1FF"];
+  H [label="OUTCOME\nAnnual cost saved\n1,656h * $120 = $198,720", fillcolor="#1C3B36", color="#4EC9B0"];
+
+  A -> G;
+  G -> H;
+}

@@ -1,0 +1,56 @@
+digraph capabilities_outcomes_mobile {
+  graph [
+    rankdir=TB,
+    bgcolor="#1E1E1E",
+    pad="0.35",
+    nodesep="0.45",
+    ranksep="0.55",
+    fontname="Cascadia Code, DejaVu Sans Mono, Noto Mono",
+    fontsize=15,
+    fontcolor="#E6EDF3",
+    labelloc="t",
+    label="Capabilities to Outcomes to Impact"
+  ];
+
+  node [
+    shape=box,
+    style="rounded,filled",
+    fontname="Cascadia Code, DejaVu Sans Mono, Noto Mono",
+    fontcolor="#E6EDF3",
+    fontsize=15,
+    margin="0.16,0.12",
+    width=4.4,
+    penwidth=1.6
+  ];
+
+  edge [color="#4FC1FF", penwidth=2, arrowsize=0.7];
+
+  C1 [fillcolor="#1F2A44", color="#5AA9FF", label="CAPABILITY\nDeterministic migrations"];
+  O1 [fillcolor="#1C3B36", color="#4EC9B0", label="OUTCOME\nAudit readiness"];
+  I1 [fillcolor="#3D3220", color="#D7BA7D", label="IMPACT\n15-30% lower audit cost"];
+
+  C2 [fillcolor="#1F2A44", color="#5AA9FF", label="CAPABILITY\nSchema packs by domain"];
+  O2 [fillcolor="#1C3B36", color="#4EC9B0", label="OUTCOME\nTeam autonomy"];
+  I2 [fillcolor="#3D3220", color="#D7BA7D", label="IMPACT\n20-40% fewer coordination hours"];
+
+  C3 [fillcolor="#1F2A44", color="#5AA9FF", label="CAPABILITY\nBoundary upcasting"];
+  O3 [fillcolor="#1C3B36", color="#4EC9B0", label="OUTCOME\nFaster releases"];
+  I3 [fillcolor="#3D3220", color="#D7BA7D", label="IMPACT\n25-50% shorter cycle time"];
+
+  C4 [fillcolor="#1F2A44", color="#5AA9FF", label="CAPABILITY\nFragment composition"];
+  O4 [fillcolor="#1C3B36", color="#4EC9B0", label="OUTCOME\nUnified 360 views"];
+  I4 [fillcolor="#3D3220", color="#D7BA7D", label="IMPACT\n20-40% less integration effort"];
+
+  C1 -> O1;
+  O1 -> I1 [style=dashed, color="#8AA0B6"];
+  C2 -> O2;
+  O2 -> I2 [style=dashed, color="#8AA0B6"];
+  C3 -> O3;
+  O3 -> I3 [style=dashed, color="#8AA0B6"];
+  C4 -> O4;
+  O4 -> I4 [style=dashed, color="#8AA0B6"];
+
+  I1 -> C2 [style=invis, weight=10];
+  I2 -> C3 [style=invis, weight=10];
+  I3 -> C4 [style=invis, weight=10];
+}
