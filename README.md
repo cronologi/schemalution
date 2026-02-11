@@ -36,14 +36,13 @@ Use this as a baseline; many teams could see additional upside from avoided dela
 
 ![Value flow with schemalution](assets/diagrams/value-flow-with.svg)
 
-## Core Capabilities → Outcomes
+## Core Capabilities
 - Deterministic migrations (pure functions) → auditability and repeatable evolution.
 - Schema packs per domain → team autonomy and reuse across services.
 - Upcast-to-latest at boundaries → business logic only sees the latest schema.
 - Optional adapters (MongoDB, Spark) → stable projections and analytics.
 - Fragment composition (`schemalution-compose`) → multi-domain 360 views.
 
-## Capabilities → Outcomes Map
 ![Capabilities to outcomes map](assets/diagrams/capabilities-outcomes.svg)
 
 ## Diagram Rendering
