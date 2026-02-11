@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/diagrams/schemalution-logo.svg" alt="schemalution logo" width="880">
+</p>
+
 # schemalution
 > schemalution turns schema evolution into a first-class architectural capability, enabling systems to evolve continuously without downtime, coordination bottlenecks, or downstream breakage.
 

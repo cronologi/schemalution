@@ -1,0 +1,110 @@
+digraph schemalution_logo {
+  graph [
+    rankdir=LR,
+    bgcolor="transparent",
+    pad="0.08",
+    nodesep="0.28",
+    ranksep="0.42",
+    splines=curved,
+    fontname="Cascadia Code, DejaVu Sans Mono, Noto Mono"
+  ];
+
+  node [
+    fontname="Cascadia Code, DejaVu Sans Mono, Noto Mono",
+    fontcolor="#E6EDF3",
+    color="#334155",
+    penwidth=1.4
+  ];
+
+  edge [
+    color="#38BDF8",
+    penwidth=2.2,
+    arrowsize=0.7
+  ];
+
+  subgraph cluster_mark {
+    label="";
+    color="#334155";
+    fillcolor="#0F172A";
+    style="rounded,filled";
+    penwidth=1.2;
+    margin=12;
+
+    V1 [
+      shape=circle,
+      label="v1",
+      style=filled,
+      fillcolor="#1D4ED8",
+      width=0.56,
+      fixedsize=true,
+      fontsize=10
+    ];
+
+    MIG [
+      shape=diamond,
+      label="f",
+      style=filled,
+      fillcolor="#7C3AED",
+      width=0.52,
+      fixedsize=true,
+      fontsize=12
+    ];
+
+    VN [
+      shape=doublecircle,
+      label="vN",
+      style=filled,
+      fillcolor="#059669",
+      width=0.68,
+      fixedsize=true,
+      fontsize=10
+    ];
+
+    READ [
+      shape=box,
+      style="rounded,filled",
+      label="latest",
+      fillcolor="#0EA5E9",
+      color="#38BDF8",
+      fontcolor="#0B1120",
+      fontsize=9,
+      margin="0.08,0.03"
+    ];
+
+    V2 [
+      shape=circle,
+      label="v2",
+      style=filled,
+      fillcolor="#2563EB",
+      width=0.44,
+      fixedsize=true,
+      fontsize=8
+    ];
+
+    V1 -> MIG;
+    MIG -> VN;
+    VN -> READ [style=dashed, color="#94A3B8", penwidth=1.8];
+    V2 -> MIG [style=dashed, color="#A78BFA", penwidth=1.6, constraint=false];
+  }
+
+  WORDMARK [
+    shape=plain,
+    label=<
+      <TABLE BORDER="0" CELLBORDER="0" CELLPADDING="0" CELLSPACING="0">
+        <TR>
+          <TD ALIGN="LEFT">
+            <FONT POINT-SIZE="34" COLOR="#38BDF8"><B>schema</B></FONT>
+            <FONT POINT-SIZE="34" COLOR="#34D399"><B>lution</B></FONT>
+          </TD>
+        </TR>
+        <TR>
+          <TD ALIGN="LEFT">
+            <FONT POINT-SIZE="12" COLOR="#64748B">deterministic schema evolution</FONT>
+          </TD>
+        </TR>
+      </TABLE>
+    >
+  ];
+
+  READ -> WORDMARK [style=invis, weight=20];
+}
