@@ -7,18 +7,15 @@ schemalution turns schema evolution into a reusable capability across services, 
 
 <table width="100%">
   <tr>
-    <td width="54%" valign="top" align="left">
+    <td width="62%" valign="top" align="left">
       <picture>
         <source media="(max-width: 768px)" srcset="assets/diagrams/economic-value-mobile.svg">
         <img src="assets/diagrams/economic-value.svg" alt="Economic value model" width="100%">
       </picture>
     </td>
-    <td width="46%" valign="top">
+    <td width="38%" valign="top">
       <table>
         <tr>
-          <th>Type</th>
-          <th>Metric</th>
-          <th>Value</th>
         </tr>
         <tr>
           <td rowspan="3"><strong>Assume</strong></td>
