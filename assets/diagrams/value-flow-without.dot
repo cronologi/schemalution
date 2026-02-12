@@ -16,7 +16,8 @@ digraph value_flow_without {
     fontname="Cascadia Code, DejaVu Sans Mono, Noto Mono",
     fontsize=13,
     fontcolor="#E6EDF3",
-    margin="0.12,0.10"
+    margin="0.12,0.10",
+    height=0.75
   ];
 
   edge [
@@ -50,21 +51,21 @@ digraph value_flow_without {
     ];
 
     W2 [
-      label="Manual coordination\n+ migration scripts",
+      label="Manual coordination\nmigration scripts",
       fillcolor="#3A2D21",
       color="#D19A66",
       fontcolor="#E5C07B"
     ];
 
     W3 [
-      label="Backfills\n+ long-running jobs",
+      label="Backfills\nlong-running jobs",
       fillcolor="#3A2D21",
       color="#D19A66",
       fontcolor="#E5C07B"
     ];
 
     W4 [
-      label="Consumer fixes\n+ version branching",
+      label="Consumer fixes\nversion branching",
       fillcolor="#3A2D21",
       color="#D19A66",
       fontcolor="#E5C07B"
@@ -74,12 +75,22 @@ digraph value_flow_without {
       label=<
         <TABLE BORDER="0" CELLBORDER="0" CELLPADDING="0" CELLSPACING="0">
           <TR><TD ALIGN="CENTER"><FONT POINT-SIZE="10" COLOR="#F48771"><B>RISK</B></FONT></TD></TR>
-          <TR><TD ALIGN="CENTER"><FONT POINT-SIZE="15" COLOR="#E6EDF3"><B>Downtime and drifted analytics</B></FONT></TD></TR>
+          <TR><TD ALIGN="CENTER"><FONT POINT-SIZE="15" COLOR="#E6EDF3"><B>Downtime and</B></FONT></TD></TR>
+          <TR><TD ALIGN="CENTER"><FONT POINT-SIZE="15" COLOR="#E6EDF3"><B>drifted analytics</B></FONT></TD></TR>
         </TABLE>
       >,
       fillcolor="#3B2529",
       color="#F48771",
       fontcolor="#E6EDF3"
+    ];
+
+    W6 [
+      label="",
+      shape=box,
+      style=invis,
+      width=3.6,
+      height=0.68,
+      fixedsize=true
     ];
   }
 
@@ -87,4 +98,5 @@ digraph value_flow_without {
   W2 -> W3;
   W3 -> W4;
   W4 -> W5;
+  W5 -> W6 [style=invis, weight=12];
 }
