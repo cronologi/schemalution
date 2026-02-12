@@ -1,7 +1,7 @@
 digraph schemalution_logo {
   graph [
     rankdir=LR,
-    bgcolor="transparent",
+    bgcolor="#1E1E1E",
     pad="0.08",
     nodesep="0.28",
     ranksep="0.42",
