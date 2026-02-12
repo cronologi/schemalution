@@ -76,6 +76,8 @@ digraph economic_value {
   C -> G;
   D -> G;
   E -> G;
-  G -> H;
+  G -> H [constraint=false];
   F -> H;
+
+  { rank=same; G; H; }
 }
